@@ -110,7 +110,7 @@ public String criar(Item item, @RequestParam("imagem") MultipartFile imagem) thr
           }
           catch(Exception err){ return "redirect:/items"; }
 
-          return "/items/editar";
+          return "items/editar";
         }
 
         @PostMapping("/items/{id}/atualizar")
@@ -141,7 +141,7 @@ public String criar(Item item, @RequestParam("imagem") MultipartFile imagem) thr
           return "redirect:/items";
         }
 
-        return "/items/visualizar";
+        return "items/visualizar";
       }
 
 }

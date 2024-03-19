@@ -49,7 +49,7 @@
                                 <td th:text="${item.data}"></td>
                                 <td th:text="${item.local}"></td>
                                 <td><a th:href="@{'/items/' + ${item.id}}" class="btn btn-warning">Alterar</td>
-                                    <td><a th:href="@{'/items/visualizar/' + ${item.id}}" class="btn btn-warning">visualizar</td>
+                                <td><a th:href="@{'/items/visualizar/' + ${item.id}}" class="btn btn-warning">visualizar</td>
                                 <td><a href="#" th:onclick="'if(confirm(\'Confirma ?\')) { window.location.href = \'' + @{/items/{id}(id=${item.id})} + '/excluir\' } '" class="btn btn-danger">Excluir</td>
                             </tr>
                         </tbody>

@@ -28,6 +28,9 @@ public class Item {
   @Column(name = "tipoimagem", length = 250, nullable = true)
   private String tipoDaImagem;
 
+  @Column(name = "notafiscal", length = 250, nullable = true)
+  private String caminhoDaNotaFiscal;
+
 public int getId() {
     return id;
 }
@@ -84,6 +87,13 @@ public void setTipoDaImagem(String tipoDaImagem) {
     this.tipoDaImagem = tipoDaImagem;
 }
 
+public String getCaminhoDaNotaFiscal() {
+    return caminhoDaNotaFiscal;
+}
+
+public void setCaminhoDaNotaFiscal(String caminhoDaNotaFiscal) {
+    this.caminhoDaNotaFiscal = caminhoDaNotaFiscal;
+}
 
 
   

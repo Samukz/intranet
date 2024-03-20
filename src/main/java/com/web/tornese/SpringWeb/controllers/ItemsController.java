@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,14 +22,18 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import com.google.api.services.storage.Storage;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.StorageOptions;
+import com.web.tornese.SpringWeb.models.Armazenagem;
+import com.web.tornese.SpringWeb.models.Grupo;
 import com.web.tornese.SpringWeb.models.Item;
+import com.web.tornese.SpringWeb.models.Unidades;
+import com.web.tornese.SpringWeb.repositorio.ArmazenagemRepository;
+import com.web.tornese.SpringWeb.repositorio.GruposRepository;
 import com.web.tornese.SpringWeb.repositorio.ItemsRepo;
-
+import com.web.tornese.SpringWeb.repositorio.UnidadesRepository;
 
 import org.springframework.util.StringUtils;
 
@@ -47,10 +50,23 @@ public class ItemsController {
     return "items/index";
   }
 
-  
+  @Autowired
+  private ArmazenagemRepository ArmazenagemRepository;
+  @Autowired
+  private GruposRepository GruposRepository;
 
         @GetMapping("/items/novo")
-        public String novo(){
+        public String novo(Model model){
+
+          List<Unidades> unidades = unidadesRepository.findAll(); // Busca todas as unidades
+          model.addAttribute("unidades", unidades); // Adiciona a lista de unidades ao modelo
+
+          List<Armazenagem> armazenagens = ArmazenagemRepository.findAll(); // Busca todas as unidades
+          model.addAttribute("Armazenagem", armazenagens);
+          
+          List<Grupo> grupos = GruposRepository.findAll(); // Busca todas as unidades
+          model.addAttribute("Grupo", grupos);
+
           return "items/novo";
         }
 
@@ -74,27 +90,45 @@ public class ItemsController {
         }
 
 
-       @PostMapping("/items/criar")
-public String criar(Item item, @RequestParam("imagem") MultipartFile imagem) throws IOException {
-    if (!imagem.isEmpty()) {
-        // Gera um nome único para o arquivo baseado em um identificador, como um UUID
-        String nomeDoArquivo = StringUtils.cleanPath(Objects.requireNonNull(imagem.getOriginalFilename()));
-        String extensao = nomeDoArquivo.substring(nomeDoArquivo.lastIndexOf('.'));
-        String nomeDoArquivoUnico = UUID.randomUUID().toString() + extensao;
+        @PostMapping("/items/criar")
+        public String criar(Item item, @RequestParam("imagem") MultipartFile imagem,
+            @RequestParam("notafiscal") MultipartFile notafiscal) throws IOException {
+          if (!imagem.isEmpty()) {
+            String nomeDoArquivoImagem = StringUtils.cleanPath(Objects.requireNonNull(imagem.getOriginalFilename()));
+            String extensaoImagem = nomeDoArquivoImagem.substring(nomeDoArquivoImagem.lastIndexOf('.'));
+            String nomeDoArquivoUnicoImagem = UUID.randomUUID().toString() + extensaoImagem;
 
-        // Prepara o arquivo para upload
-        BlobId blobId = BlobId.of("imagens_doit", "img-uploads/" + nomeDoArquivoUnico); // Substitua "seu-bucket" pelo nome do seu bucket
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-        
-        // Cria a conexão com o Storage
-        com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
-        // Realiza o upload
-        Blob blob = storage.create(blobInfo, imagem.getBytes());
+            BlobId blobIdImagem = BlobId.of("imagens_doit", "img-uploads/" + nomeDoArquivoUnicoImagem);
+            BlobInfo blobInfoImagem = BlobInfo.newBuilder(blobIdImagem).build();
 
-        // Armazena a URL pública da imagem
-        String imageUrl = "https://storage.googleapis.com/" + blob.getBucket() + "/" + blob.getName(); // URL direta para o arquivo
-        item.setCaminhoDaImagem(imageUrl); // Salva a URL da imagem no objeto item
-    }
+            com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
+            Blob blobImagem = storage.create(blobInfoImagem, imagem.getBytes());
+
+            String imageUrl = "https://storage.googleapis.com/" + blobImagem.getBucket() + "/" + blobImagem.getName();
+            item.setCaminhoDaImagem(imageUrl);
+          }
+
+          if (!notafiscal.isEmpty()) {
+            String nomeDoArquivoNota = StringUtils.cleanPath(Objects.requireNonNull(notafiscal.getOriginalFilename()));
+            String extensaoNota = nomeDoArquivoNota.substring(nomeDoArquivoNota.lastIndexOf('.'));
+            String nomeDoArquivoUnicoNota = UUID.randomUUID().toString() + extensaoNota;
+
+            BlobId blobIdNota = BlobId.of("imagens_doit", "nota-fiscal-uploads/" + nomeDoArquivoUnicoNota); // Crie uma
+                                                                                                            // nova
+                                                                                                            // pasta
+                                                                                                            // para
+                                                                                                            // notas
+                                                                                                            // fiscais
+            BlobInfo blobInfoNota = BlobInfo.newBuilder(blobIdNota).build();
+
+            // Cria a conexão com o Storage para o arquivo de nota fiscal
+            com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
+            Blob blobNota = storage.create(blobInfoNota, notafiscal.getBytes());
+
+            String notaFiscalUrl = "https://storage.googleapis.com/" + blobNota.getBucket() + "/" + blobNota.getName();
+            item.setCaminhoDaNotaFiscal(notaFiscalUrl); // Supondo que você tenha um campo para isso em seu objeto item
+          }
+
 
     repo.save(item);
     return "redirect:/items";
@@ -134,14 +168,27 @@ public String criar(Item item, @RequestParam("imagem") MultipartFile imagem) thr
 
       @GetMapping("/items/visualizar/{id}")
       public String buscar(@PathVariable int id, Model model) {
+        List<Unidades> unidades = unidadesRepository.findAll(); // Busca todas as unidades
         Optional<Item> item = repo.findById(id);
         try {
           model.addAttribute("item", item.get());
+
         } catch (Exception err) {
           return "redirect:/items";
         }
 
         return "items/visualizar";
       }
+
+      @Autowired
+      private UnidadesRepository unidadesRepository; // Adicione isso ao seu controller
+
+      @GetMapping("/unidades/selecionar")
+      public String listarUnidades(Model model) {
+          List<Unidades> unidades = unidadesRepository.findAll(); // Busca todas as unidades
+          model.addAttribute("unidades", unidades); // Adiciona a lista de unidades ao modelo
+          return "local"; // Substitua pelo nome do seu arquivo HTML
+      }
+
 
 }

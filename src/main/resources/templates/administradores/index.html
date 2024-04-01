@@ -23,6 +23,7 @@
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Senha</th>
+                                <th>Permissao</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -33,6 +34,7 @@
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Senha</th>
+                                <th>Permissao</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -43,6 +45,7 @@
                                 <td th:text="${administrador.nome}"></td>
                                 <td th:text="${administrador.email}"></td>
                                 <td th:text="${administrador.senha}"></td>
+                                <td th:text="${administrador.tipoUsuario}"></td>
                                 <td><a th:href="@{'/administradores/' + ${administrador.id}}" class="btn btn-warning">Alterar</td>
                                 <td><a href="#" th:onclick="'if(confirm(\'Confirma ?\')) { window.location.href = \'' + @{/administradores/{id}(id=${administrador.id})} + '/excluir\' } '" class="btn btn-danger">Excluir</td>
                             </tr>

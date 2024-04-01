@@ -21,6 +21,9 @@ public class Administrador {
   @Column(name = "senha", length = 255, nullable = false)
   private String senha;
 
+  @Column(name = "tipoUsuario", length = 255, nullable = false)
+  private String tipoUsuario;
+
   @Column(name = "observacao")
   @Type(type = "text")
   private String observacao;
@@ -64,4 +67,15 @@ public class Administrador {
   public void setNome(String nome) {
     this.nome = nome;
   }
+
+public String getTipoUsuario() {
+    return tipoUsuario;
+}
+
+public void setTipoUsuario(String tipoUsuario) {
+    this.tipoUsuario = tipoUsuario;
+}
+
+
+  
 }

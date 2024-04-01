@@ -13,27 +13,43 @@
     <form method="POST" th:action="@{'/items/' + ${item?.id} + '/atualizar'}">
 
 
-        <h4>Dados do bem</h4>
+    <div class="form-row align-items-center justify-content-between">
+        <div class="col-md-auto">
+            <h4>Dados do bem </h4>
+        </div>
+        <div class="col">
+            <div class="row justify-content-end">
+                <div class="form-group col-md-auto">
+                    <label for="datacadastro">Data Cadastro</label>
+                    <input type="text" class="form-control" id="datacadastro" name="datacadastro" th:value="${item?.datacadastro}" readonly>
+                </div>
+                <div class="form-group col-md-auto">
+                    <!-- Novo campo adicionado ao lado -->
+                    <label for="pessoa">Usuário</label>
+                    <input type="text" class="form-control" id="pessoa" name="pessoa"  th:value="${item?.pessoa}" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
         
         <div class="form-row">
             <div class="form-group col-md-5">
                 <label for="nome">Nome do bem</label>
-                <input type="text" class="form-control" id="nome" name="nome" readonly>
+                <input type="text" class="form-control" id="nome" name="nome" th:value="${item?.nome}" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label for="grupo">Categoria</label>
                 <select class="form-control" id="grupo" name="grupo" disabled>
-        
-        
-                    <th:block th:each="grupo : ${Grupo}">
-                        <option th:value="${grupo.id}" th:text="${grupo.grupo}"></option>
-                    </th:block>
-                </select>
+                                        <option selected="selected" th:text="${item?.categoria}"></option>
+                                        </select>
+                                        <!-- Campo oculto para garantir o envio do valor no formulário -->
+                                        <input type="hidden" name="categoria" th:value="${item?.categoria}">
             </div>
+
             <div class="form-group col-md-3">
                 <label for="patrimonio">Nº Patrimônio</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="patrimonio" name="patrimonio"
+                    <input type="text" class="form-control" id="patrimonio" name="patrimonio" th:value="${item?.patrimonio}"
                         readonly>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" disabled>Pesquisar</button>
@@ -45,25 +61,24 @@
         <div class="form-row">
             <div class="col">
                 <label for="teste">Nº Série</label>
-                <input type="text" class="form-control" id="serie" name="serie" readonly>
+                <input type="text" class="form-control" id="serie" name="serie" th:value="${item?.serie}" readonly>
             </div>
             <div class="col">
                 <label for="teste">Nº Marca</label>
-                <input type="text" class="form-control"  id="abc" name="abc" readonly>
+                <input type="text" class="form-control"  id="marca" name="marca" th:value="${item?.marca}" readonly>
             </div>
             <div class="col">
                 <label for="teste">Modelo</label>
-                <input type="text" class="form-control"  id="def" name="def" readonly>
+                <input type="text" class="form-control"  id="modelo" name="modelo" th:value="${item?.modelo}" readonly>
             </div>
             <div class="form-group col-md-2">
                 <label for="local">Estado do bem</label>
-                <select class="form-control" id="local" name="local" disabled>
-                    <option value="Novo">Novo</option>
-                    <option value="Semi-novo">Semi-novo</option>
-                    <option value="Usado">Usado</option>
-                    <option value="Obsoleto ">Obsoleto</option>
-                    <option value="Inservível">Inservível</option>
-                </select>
+                <select class="form-control" id="estado" name="estado" disabled>
+                    <!-- O único valor disponível é o que vem do banco de dados, marcado como selecionado -->
+                    <option selected="selected" th:text="${item?.estado}"></option>
+                    </select>
+                    <!-- Campo oculto para garantir o envio do valor no formulário -->
+                    <input type="hidden" name="estado" th:value="${item?.estado}">
         </div>
         
         </div>
@@ -76,17 +91,22 @@
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="valor">Local</label>
-                <input type="text" class="form-control" th:value="${item?.local}" id="valor" name="valor" readonly>                
+                <select id="valor" class="form-control" disabled>
+                    <!-- O único valor disponível é o que vem do banco de dados, marcado como selecionado -->
+                    <option selected="selected" th:text="${item?.local}"></option>
+                </select>
+                <!-- Campo oculto para garantir o envio do valor no formulário -->
+                <input type="hidden" name="valor" th:value="${item?.local}">
             </div>
+
 
             <div class="form-group col-md-6">
                 <label for="armazenagem">Armazenagem</label>
                 <select class="form-control" id="armazenagem" name="armazenagem" disabled>
-                    <!-- Iterates over the 'Armazenagem' and displays each one as an option -->
-                    <th:block th:each="armazenagem : ${Armazenagem}">
-                        <option th:text="${armazenagem.local}" th:value="${armazenagem.id}"></option>
-                    </th:block>
+                <option selected="selected" th:text="${item?.armazenagem}"></option>
                 </select>
+                <!-- Campo oculto para garantir o envio do valor no formulário -->
+                <input type="hidden" name="armazenagem" th:value="${item?.armazenagem}">
             </div>
         </div>
         <!-- Adicionando uma quebra com linha pontilhada -->
@@ -97,22 +117,22 @@
         <div class="row">
             <div class="form-group col-md-2">
                 <label for="valor">Valor do bem</label>
-                <input type="text" class="form-control" id="valor" name="valor" onKeyUp="formatarMoeda()" readonly>
+                <input type="text" class="form-control" id="valor" name="valor" onKeyUp="formatarMoeda()" th:value="${item?.valor}" readonly>
             </div>
         
             <div class="form-group col-md-2">
                 <label for="data">Data</label>
-                <input type="date" class="form-control" id="data" name="data" readonly>
+                <input type="date" class="form-control" id="data" name="data" th:value="${item?.data}" readonly>
             </div>
         
             <div class="form-group col-md-3">
                 <label for="forma_pagamento">Forma de pagamento</label>
                 <select class="form-control" id="forma_pagamento" name="forma_pagamento" disabled>
-                    <option value="cartao_credito">Cartão de Crédito</option>
-                    <option value="boleto_bancario">Boleto Bancário</option>
-                    <option value="pix">PIX</option>
-                    <option value="dinheiro">Dinheiro</option>
-                </select>
+                                        <!-- O único valor disponível é o que vem do banco de dados, marcado como selecionado -->
+                                        <option selected="selected" th:text="${item?.pagamento}"></option>
+                                        </select>
+                                        <!-- Campo oculto para garantir o envio do valor no formulário -->
+                                        <input type="hidden" name="forma_pagamento" th:value="${item?.pagamento}">
             </div>
             <!-- Display PDF Link -->
             <div class="form-group">
@@ -124,7 +144,8 @@
 
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Observações gerais sobre o cadastro do item</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly></textarea>
+            <textarea class="form-control" id="obs" name="obs" rows="3" readonly th:text="${item?.obs}"></textarea>
+
         </div>
 
 
@@ -143,7 +164,6 @@
                 </div>
             </div>
 
-                    <button type="submit" class="btn btn-primary">Voltar</button>
                     
                    </div>
 

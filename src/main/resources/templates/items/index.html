@@ -20,37 +20,44 @@
                         <thead>
                             <tr>                               
                                 <th>Id</th>
+                                <th>Patrimonio</th>
                                 <th>Nome</th>
                                 <th>Valor</th>
                                 <th>Data</th>
                                 <th>Local</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Id</th>
+                                <th>Patrimonio</th>
                                 <th>Nome</th>
                                 <th>Valor</th>
                                 <th>Data</th>
                                 <th>Local</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>Ações</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             <tr th:each="item : ${items}">
                                 <td th:text="${item.id}"></td>
+                                <td th:text="${item.patrimonio}"></td>
                                 <td th:text="${item.nome}"></td>
-                                <td th:text="${item.valor}"></td>
+                                <td class="valor-monetario" th:text="${item.valor}"></td>
                                 <td th:text="${item.data}"></td>
                                 <td th:text="${item.local}"></td>
-                                <td><a th:href="@{'/items/' + ${item.id}}" class="btn btn-warning">Alterar</td>
+                                <td>
+                                    <a th:href="@{'/items/' + ${item.id}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <a th:href="@{'/items/visualizar/' + ${item.id}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                    <a href="#"
+                                        th:onclick="'if(confirm(\'Confirma ?\')) { window.location.href = \'' + @{/items/{id}(id=${item.id})} + '/excluir\' } '"
+                                        class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                                
+                                <!-- <td><a th:href="@{'/items/' + ${item.id}}" class="btn btn-warning">Alterar</td>
                                 <td><a th:href="@{'/items/visualizar/' + ${item.id}}" class="btn btn-warning">visualizar</td>
-                                <td><a href="#" th:onclick="'if(confirm(\'Confirma ?\')) { window.location.href = \'' + @{/items/{id}(id=${item.id})} + '/excluir\' } '" class="btn btn-danger">Excluir</td>
+                                <td><a href="#" th:onclick="'if(confirm(\'Confirma ?\')) { window.location.href = \'' + @{/items/{id}(id=${item.id})} + '/excluir\' } '" class="btn btn-danger">Excluir</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -61,3 +68,13 @@
     </div>
     <!-- /.container-fluid -->
 <div th:replace="compartilhado/baixo"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.valor-monetario').forEach(function (node) {
+                var valor = parseFloat(node.innerText);
+                node.innerText = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            });
+        });
+</script>
+

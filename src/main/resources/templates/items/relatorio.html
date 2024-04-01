@@ -1,0 +1,198 @@
+<div th:replace="compartilhado/top"></div>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Items</h1>
+        <p class="mb-4">
+            Aqui irá listar os items do meu sistema
+        </p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary" style="display: inline-block;">Lista de bens por filtro</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+                        <thead>
+                            <tr>
+                                <!-- Filtros -->
+                                <th colspan="11">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="filterName">Nome do item</label>
+                                            <input type="text" class="form-control" placeholder="Nome do item" id="filterName" >
+                                        </div>
+                                        <div class="col">
+                                            <label for="filterLocal">Local</label>
+                                            <select class="form-control" id="filterLocal">
+                                                <option value="">Todos</option> <!-- Esta opção representa "nenhum filtro" -->
+                                                <option value="Hospital Municipal Albert Schweitzer">Hospital Municipal Albert Schweitzer</option>
+                                                <option value="Upa Bom Jardim">Upa Bom Jardim</option>
+                                                <!-- Mais opções de filtro conforme necessário -->
+                                            </select>
+
+                                        </div>
+                                        <div class="col">
+                                            <label for="filterCategoria">Categoria</label>
+                                            <select class="form-control" id="filterCategoria">
+                                                <option value="">Todos</option>
+                                                <!-- Adicione opções aqui. Exemplo: -->
+                                                <option value="Mobiliário">Mobiliário</option>
+                                                <option value="Local 2">Local 2</option>
+                                                <!-- Continue adicionando opções conforme necessário -->
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="filterEstado">Estado</label>
+                                            <select class="form-control" id="filterEstado">
+                                                <option value="">Todos</option> <!-- Esta opção representa "nenhum filtro" -->
+                                                <option value="Novo">Novo</option>
+                                                <option value="Obsoleto">Obsoleto</option>
+                                                <!-- Mais opções de filtro conforme necessário -->
+                                            </select>
+                                        </div>
+                                        <!-- Botão de Exportar para Excel -->
+                                        <div class="col align-self-end">
+                                            <button type="button" class="btn btn-success" id="exportarExcel">Exportar para Excel</button> 
+                                        </div>
+                                    </div>
+                                </th>
+                                </tr>
+
+                            <tr>                               
+                                <th>Id</th>
+                                <th>Patrimonio</th>
+                                <th>Nome</th>
+                                <th>Valor</th>
+                                <th>Data</th>
+                                <th>Local</th>
+                                <th>Categoria</th>
+                                <th>Estado do bem</th>
+                                <th>Nº Série</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Patrimonio</th>
+                                <th>Nome</th>
+                                <th>Valor</th>
+                                <th>Data</th>
+                                <th>Local</th>
+                                <th>Categoria</th>
+                                <th>Estado do bem</th>
+                                <th>Nº Série</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr th:each="item : ${items}">
+                                <td th:text="${item.id}"></td>
+                                <td th:text="${item.patrimonio}"></td>
+                                <td th:text="${item.nome}"></td>
+                                <td class="valor-monetario" th:text="${item.valor}"></td>
+                                <td th:text="${item.data}"></td>
+                                <td th:text="${item.local}"></td>
+                                <td th:text="${item.categoria}"></td>
+                                <td th:text="${item.estado}"></td>      
+                                <td th:text="${item.marca}"></td>
+                                <td th:text="${item.marca}"></td>
+                                <td th:text="${item.modelo}"></td>
+                                
+                                <!-- <td><a th:href="@{'/items/' + ${item.id}}" class="btn btn-warning">Alterar</td>
+                                <td><a th:href="@{'/items/visualizar/' + ${item.id}}" class="btn btn-warning">visualizar</td>
+                                <td><a href="#" th:onclick="'if(confirm(\'Confirma ?\')) { window.location.href = \'' + @{/items/{id}(id=${item.id})} + '/excluir\' } '" class="btn btn-danger">Excluir</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+<div th:replace="compartilhado/baixo"></div>
+
+<script>document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('.valor-monetario').forEach(function (node) {
+            var valor = parseFloat(node.innerText);
+            node.innerText = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        });
+    });
+
+    $(document).ready(function () {
+        // Armazenamento para os valores dos filtros
+        var filtroNome = '';
+        var filtroLocal = '';
+        var filtroCategoria = '';
+        var filtroEstado = '';
+
+        // Função para aplicar todos os filtros
+        function aplicarTodosOsFiltros() {
+            $("#dataTable tbody tr").each(function () {
+                var nome = $(this).find("td:eq(2)").text().toLowerCase();
+                var local = $(this).find("td:eq(5)").text().toLowerCase();
+                var categoria = $(this).find("td:eq(6)").text().toLowerCase();
+                var estado = $(this).find("td:eq(7)").text().toLowerCase();
+
+                var mostrar = true;
+
+                if (filtroNome && nome.indexOf(filtroNome) === -1) mostrar = false;
+                if (filtroLocal && local.indexOf(filtroLocal) === -1) mostrar = false;
+                if (filtroCategoria && categoria.indexOf(filtroCategoria) === -1) mostrar = false;
+                if (filtroEstado && estado.indexOf(filtroEstado) === -1) mostrar = false;
+
+                $(this).toggle(mostrar);
+            });
+        }
+
+        // Eventos para atualizar os filtros e reaplicar a filtragem
+        $("#filterName").on("keyup", function () {
+            filtroNome = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+
+        $("#filterLocal").on("change", function () {
+            filtroLocal = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+
+        $("#filterCategoria").on("change", function () {
+            filtroCategoria = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+
+        $("#filterEstado").on("change", function () {
+            filtroEstado = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+    });
+   
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#exportarExcel").click(function () {
+            var nome = $("#filterName").val().trim();
+            var local = $("#filterLocal").val().trim();
+            var categoria = $("#filterCategoria").val().trim();
+            var estado = $("#filterEstado").val().trim();
+
+            // Verificar se o campo de nome está vazio e, se estiver, definir para null
+            if (nome === "") {
+                nome = "%";
+            }
+
+            var queryParams = $.param({ nome, local, categoria, estado });
+            window.location.href = "/exportar?" + queryParams;
+        });
+    });
+
+</script>

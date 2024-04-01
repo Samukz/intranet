@@ -10,30 +10,51 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4" style="padding: 30px;">
-            <form method="POST" th:action="@{'/items/' + ${item?.id} + '/atualizar'}">
+            <form method="POST" th:action="@{'/items/' + ${item?.id} + '/atualizar'}" enctype="multipart/form-data">
                
-                <h4>Dados do bem</h4>
+                <div class="form-row align-items-center justify-content-between">
+                    <div class="col-md-auto">
+                        <h4>Dados do bem </h4>
+                    </div>
+                    <div class="col">
+                        <div class="row justify-content-end">
+                            <div class="form-group col-md-auto">
+                                <label for="datacadastro">Data Cadastro</label>
+                                <input type="text" class="form-control" id="datacadastro" name="datacadastro"
+                                    th:value="${item?.datacadastro}" readonly>
+                            </div>
+                            <div class="form-group col-md-auto">
+                                <!-- Novo campo adicionado ao lado -->
+                                <label for="pessoa">Usuário</label>
+                                <input type="text" class="form-control" id="pessoa" name="pessoa" th:value="${item?.pessoa}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="nome">Nome do bem</label>
-                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" th:value="${item.nome}">
                     </div>
+
                     <div class="form-group col-md-4">
-                        <label for="grupo">Categoria</label>
-                        <select class="form-control" id="grupo" name="grupo">
-                
-                
+                        <label for="categoria">Categoria</label>
+                        <select class="form-control" id="categoria" name="categoria">                            
+                            <!-- Iterando sobre a lista de grupos -->
                             <th:block th:each="grupo : ${Grupo}">
-                                <option th:value="${grupo.id}" th:text="${grupo.grupo}"></option>
+                                <option th:value="${grupo.grupo}" th:text="${grupo.grupo}" th:selected="${grupo.grupo == item?.categoria}">
+                                    Categoria</option>
                             </th:block>
                         </select>
                     </div>
+
+
                     <div class="form-group col-md-3">
                         <label for="patrimonio">Nº Patrimônio</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="patrimonio" name="patrimonio"
-                                placeholder="Digite o número do Patrimônio">
+                                placeholder="Digite o número do Patrimônio" th:value="${item.patrimonio}" readonly>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
                             </div>
@@ -44,27 +65,30 @@
                 <div class="form-row">
                     <div class="col">
                         <label for="teste">Nº Série</label>
-                        <input type="text" class="form-control" placeholder="Número de série" id="serie" name="serie">
+                        <input type="text" class="form-control" placeholder="Número de série" id="serie" name="serie" th:value="${item.serie}">
                     </div>
                     <div class="col">
                         <label for="teste">Nº Marca</label>
-                        <input type="text" class="form-control" placeholder="Marca" id="abc" name="abc">
+                        <input type="text" class="form-control" placeholder="Marca" id="marca" name="marca" th:value="${item.Marca}">
                     </div>
                     <div class="col">
                         <label for="teste">Modelo</label>
-                        <input type="text" class="form-control" placeholder="Modelo" id="def" name="def">
+                        <input type="text" class="form-control" placeholder="Modelo" id="modelo" name="modelo" th:value="${item.Modelo}">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="local">Estado do bem</label>
-                        <select class="form-control" id="local" name="local">
-                            <option value="Novo">Novo</option>
-                            <option value="Semi-novo">Semi-novo</option>
-                            <option value="Usado">Usado</option>
-                            <option value="Obsoleto ">Obsoleto</option>
-                            <option value="Inservível">Inservível</option>
+                        <label for="estado">Estado do bem</label>
+                        <select class="form-control" id="estado" name="estado">
+                            <!-- Opção que vem do banco de dados -->
+                            <option th:selected="${item?.estado == 'Novo'}" value="Novo">Novo</option>
+                            <option th:selected="${item?.estado == 'Semi-novo'}" value="Semi-novo">Semi-novo</option>
+                            <option th:selected="${item?.estado == 'Usado'}" value="Usado">Usado</option>
+                            <option th:selected="${item?.estado == 'Obsoleto'}" value="Obsoleto">Obsoleto</option>
+                            <option th:selected="${item?.estado == 'Inservível'}" value="Inservível">Inservível</option>
                         </select>
+                        <!-- Removendo o campo oculto, pois o valor selecionado será enviado pelo select -->
+                        </div>
                     </div>
-                </div>
+
                 
                 <div class="mb-3" style="width: 30%;">
                     <label for="formFile" class="form-label">Selecione a imagem</label>
@@ -77,24 +101,32 @@
                 
                 <h4>Armazenagem</h4>
                 
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="local">Local</label>
-                        <select class="form-control" id="local" name="local">
-                            <th:block th:each="unidade : ${unidades}">
-                                <option th:text="${unidade.nomeunidade}" th:value="${unidade.id}"></option>
-                            </th:block>
-                        </select>
-                    </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="local">Local</label>
+                    <select class="form-control" id="local" name="local">
+                        <th:block th:each="unidade : ${unidades}">
+                            <option th:text="${unidade.nomeunidade}" th:value="${unidade.nomeunidade}"
+                                th:selected="${unidade.nomeunidade == item.local}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+
+
+
                     <div class="form-group col-md-6">
                         <label for="armazenagem">Armazenagem</label>
                         <select class="form-control" id="armazenagem" name="armazenagem">
-                            <!-- Iterates over the 'Armazenagem' and displays each one as an option -->
                             <th:block th:each="armazenagem : ${Armazenagem}">
-                                <option th:text="${armazenagem.local}" th:value="${armazenagem.id}"></option>
+                                <option th:text="${armazenagem.local}" th:value="${armazenagem.local}"
+                                    th:selected="${armazenagem.local == item.armazenagem}"></option>
                             </th:block>
                         </select>
                     </div>
+
+
+
                 </div>
                 <!-- Adicionando uma quebra com linha pontilhada -->
                 <hr style="border-top: 1px dotted #8c8b8b;">
@@ -105,23 +137,25 @@
                     <div class="form-group col-md-2">
                         <label for="valor">Valor do bem</label>
                         <input type="text" class="form-control" id="valor" name="valor" placeholder="Digite o valor"
-                            onKeyUp="formatarMoeda()">
+                            onKeyUp="formatarMoeda()" th:value="${item.valor}">
                     </div>
                 
                     <div class="form-group col-md-2">
                         <label for="data">Data</label>
-                        <input type="date" class="form-control" id="data" name="data">
+                        <input type="date" class="form-control" id="data" name="data" th:value="${item?.data}">
                     </div>
                 
                     <div class="form-group col-md-3">
-                        <label for="forma_pagamento">Forma de pagamento</label>
-                        <select class="form-control" id="forma_pagamento" name="forma_pagamento">
-                            <option value="cartao_credito">Cartão de Crédito</option>
-                            <option value="boleto_bancario">Boleto Bancário</option>
-                            <option value="pix">PIX</option>
-                            <option value="dinheiro">Dinheiro</option>
+                        <label for="pagamento">Forma de pagamento</label>
+                        <select class="form-control" id="pagamento" name="pagamento">
+                            <!-- Opção que vem do banco de dados -->
+                            <option th:selected="${item?.pagamento == 'cartao_credito'}" value="cartao_credito">Cartão de Crédito</option>
+                            <option th:selected="${item?.pagamento == 'boleto_bancario'}" value="boleto_bancario">Boleto Bancário</option>
+                            <option th:selected="${item?.pagamento == 'pix'}" value="pix">PIX</option>
+                            <option th:selected="${item?.pagamento == 'dinheiro'}" value="dinheiro">Dinheiro</option>
                         </select>
                     </div>
+
                 
                 
                 
@@ -133,7 +167,7 @@
                 
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1" class="form-label">Observações gerais sobre o cadastro do item</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea class="form-control" id="obs" name="obs" rows="3" th:text="${item?.obs}"></textarea>
                 </div>
 
                 <!-- Display Image Section -->
@@ -160,3 +194,104 @@
     </div>
     <!-- /.container-fluid -->
 <div th:replace="compartilhado/baixo"></div>
+
+
+<style>
+    .texto-disponivel {
+        color: green;
+    }
+
+    .texto-indisponivel {
+        color: #ff6666;
+        /* Um vermelho claro, ajuste conforme necessário */
+    }
+</style>
+
+
+<script>
+    var patrimonioDisponivel = true; // Assume inicialmente que está disponível
+
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this, args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
+    var verificarExistenciaDebounced = debounce(function () {
+        var numeroPatrimonio = document.getElementById('patrimonio').value;
+        var resultadoPesquisa = document.getElementById('resultadoPesquisa');
+        if (!numeroPatrimonio) {
+            resultadoPesquisa.textContent = '';
+            resultadoPesquisa.className = '';
+            patrimonioDisponivel = false; // Assume não disponível se vazio
+            return;
+        }
+
+        var url = '/verificarExistencia?numeroPatrimonio=' + encodeURIComponent(numeroPatrimonio);
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                resultadoPesquisa.className = '';
+                if (data) {
+                    resultadoPesquisa.textContent = 'Patrimônio já cadastrado.';
+                    resultadoPesquisa.classList.add('texto-indisponivel');
+                    patrimonioDisponivel = false; // Atualiza para não disponível
+                } else {
+                    resultadoPesquisa.textContent = 'Patrimônio disponível para cadastro.';
+                    resultadoPesquisa.classList.add('texto-disponivel');
+                    patrimonioDisponivel = true; // Atualiza para disponível
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao pesquisar patrimônio:', error);
+                resultadoPesquisa.textContent = 'Erro ao realizar a pesquisa.';
+                resultadoPesquisa.className = '';
+                patrimonioDisponivel = false; // Assume erro como não disponível
+            });
+    }, 500);
+
+    document.getElementById('patrimonio').addEventListener('input', verificarExistenciaDebounced);
+
+    function validarFormulario() {
+        var nome = document.getElementById('nome').value;
+        var patrimonio = document.getElementById('patrimonio').value;
+        var valorCampo = document.getElementById('valor').value;
+
+        // Validações de campos obrigatórios
+        if (!nome || !patrimonio) {
+            alert('Os campos "Item" e "Nº Patrimônio" são obrigatórios.');
+            return false;
+        }
+
+        // Validação do número do patrimônio
+        if (!patrimonioDisponivel) {
+            alert('Patrimônio já cadastrado. Por favor, verifique o número do patrimônio.');
+            return false;
+        }
+
+        // Remoção do símbolo de R$ e espaços extras
+        valorCampo = valorCampo.replace('R$ ', '').trim();
+
+        // Substituição de vírgulas por pontos e ajuste de formatação para float
+        // Assumindo que você quer manter dois dígitos após o ponto decimal,
+        // e considerando a remoção de pontos usados como separadores de milhar
+        valorCampo = valorCampo.replace(',', '.').replace(/\./g, '').replace(/(\d)(\d{2})$/, "$1.$2");
+
+        // Atualização do valor do campo para o formato numérico correto
+        document.getElementById('valor').value = valorCampo;
+
+        // Confirmação final antes do envio
+        return confirm('Confirma ação?');
+    }
+
+</script>

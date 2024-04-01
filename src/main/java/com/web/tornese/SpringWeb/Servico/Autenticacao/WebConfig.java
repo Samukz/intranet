@@ -9,12 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    private AuthInterceptor authInterceptor;
+    private UserInterceptor userInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // Registrar o interceptor para todas as rotas exceto '/login' e '/logar'
-        registry.addInterceptor(authInterceptor)
-                .excludePathPatterns("/login", "/logar");
+        registry.addInterceptor(userInterceptor)
+                .excludePathPatterns("/login", "/error", "/logar", "/img/**", "/vendor/**", "/js/**", "/favicon.ico",
+                        "/css/**");
     }
 }

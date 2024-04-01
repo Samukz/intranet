@@ -63,6 +63,16 @@ public class ItemsController {
   public String index2(Model model) {
     List<Item> items = (List<Item>) repo.findAll();
     model.addAttribute("items", items);
+
+    List<Unidades> unidades = unidadesRepository.findAll(); // Busca todas as unidades
+    model.addAttribute("unidades", unidades); // Adiciona a lista de unidades ao modelo
+
+    List<Armazenagem> armazenagens = ArmazenagemRepository.findAll(); // Busca todas as unidades
+    model.addAttribute("Armazenagem", armazenagens);
+
+    List<Grupo> grupos = GruposRepository.findAll(); // Busca todas as unidades
+    model.addAttribute("Grupo", grupos);
+    
     return "items/relatorio";
   }
 

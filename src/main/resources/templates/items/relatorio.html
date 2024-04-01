@@ -29,8 +29,8 @@
                                             <label for="filterLocal">Local</label>
                                             <select class="form-control" id="filterLocal">
                                                 <option value="">Todos</option> <!-- Esta opção representa "nenhum filtro" -->
-                                                <option value="Hospital Municipal Albert Schweitzer">Hospital Municipal Albert Schweitzer</option>
-                                                <option value="Upa Bom Jardim">Upa Bom Jardim</option>
+                                                <th:block th:each="unidade : ${unidades}">
+                                                    <option th:text="${unidade.nomeunidade}" th:value="${unidade.nomeunidade}"></option>
                                                 <!-- Mais opções de filtro conforme necessário -->
                                             </select>
 
@@ -39,9 +39,8 @@
                                             <label for="filterCategoria">Categoria</label>
                                             <select class="form-control" id="filterCategoria">
                                                 <option value="">Todos</option>
-                                                <!-- Adicione opções aqui. Exemplo: -->
-                                                <option value="Mobiliário">Mobiliário</option>
-                                                <option value="Local 2">Local 2</option>
+                                                <th:block th:each="grupo : ${Grupo}">
+                                                    <option th:value="${grupo.grupo}" th:text="${grupo.grupo}"></option>
                                                 <!-- Continue adicionando opções conforme necessário -->
                                             </select>
                                         </div>
@@ -50,7 +49,10 @@
                                             <select class="form-control" id="filterEstado">
                                                 <option value="">Todos</option> <!-- Esta opção representa "nenhum filtro" -->
                                                 <option value="Novo">Novo</option>
-                                                <option value="Obsoleto">Obsoleto</option>
+                                                <option value="Semi-novo">Semi-novo</option>
+                                                <option value="Usado">Usado</option>
+                                                <option value="Obsoleto ">Obsoleto</option>
+                                                <option value="Inservível">Inservível</option>
                                                 <!-- Mais opções de filtro conforme necessário -->
                                             </select>
                                         </div>

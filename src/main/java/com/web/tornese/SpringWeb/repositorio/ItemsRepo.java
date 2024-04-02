@@ -3,10 +3,12 @@ package com.web.tornese.SpringWeb.repositorio;
 import com.web.tornese.SpringWeb.models.Item;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 public interface ItemsRepo extends CrudRepository<Item, Integer> {
   @Query(value="select CASE WHEN count(1) > 0 THEN 'true' ELSE 'false' END  from administradores where id = :id", nativeQuery = true)
@@ -46,6 +48,8 @@ public interface ItemsRepo extends CrudRepository<Item, Integer> {
       @Param("local") String local,
       @Param("categoria") String categoria,
       @Param("estado") String estado);
+
+      Optional<Item> findByPatrimonio(String patrimonio);
 
   //@Query(value="select * from administradores where nome like %:nome% or email like %:email% ", nativeQuery = true)
 	//public ArrayList<Administrador> findAllByNomeEmail(@Param("nome") String nome, @Param("email") String email);

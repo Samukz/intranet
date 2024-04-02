@@ -1,0 +1,166 @@
+<div th:replace="compartilhado/top"></div>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Items</h1>
+        <p class="mb-4">
+            Aqui irá listar os items do meu sistema
+        </p>
+
+        DataTales Example
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary" style="display: inline-block;">Pesquisar por QR CODE</h6>
+
+
+
+
+<div class="container">
+    <h2>Scanner de QR Code</h2>
+    <video id="qrVideo" width="320" height="240" autoplay></video>
+    <button id="startButton" class="btn btn-success">Iniciar Câmera</button>
+    <p id="qrCodeText">Texto do QR Code aparecerá aqui...</p>
+</div>
+
+<!-- Bootstrap e jQuery para funcionalidades básicas -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/@zxing/library@latest"></script> <!-- Biblioteca ZXing para JavaScript -->
+
+
+            </div>
+            
+            
+</div>
+    </div>
+    <!-- /.container-fluid -->
+<div th:replace="compartilhado/baixo"></div>
+
+<script>document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('.valor-monetario').forEach(function (node) {
+            var valor = parseFloat(node.innerText);
+            node.innerText = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        });
+    });
+
+    $(document).ready(function () {
+        // Armazenamento para os valores dos filtros
+        var filtroNome = '';
+        var filtroLocal = '';
+        var filtroCategoria = '';
+        var filtroEstado = '';
+
+        // Função para aplicar todos os filtros
+        function aplicarTodosOsFiltros() {
+            $("#dataTable tbody tr").each(function () {
+                var nome = $(this).find("td:eq(2)").text().toLowerCase();
+                var local = $(this).find("td:eq(5)").text().toLowerCase();
+                var categoria = $(this).find("td:eq(6)").text().toLowerCase();
+                var estado = $(this).find("td:eq(7)").text().toLowerCase();
+
+                var mostrar = true;
+
+                if (filtroNome && nome.indexOf(filtroNome) === -1) mostrar = false;
+                if (filtroLocal && local.indexOf(filtroLocal) === -1) mostrar = false;
+                if (filtroCategoria && categoria.indexOf(filtroCategoria) === -1) mostrar = false;
+                if (filtroEstado && estado.indexOf(filtroEstado) === -1) mostrar = false;
+
+                $(this).toggle(mostrar);
+            });
+        }
+
+        // Eventos para atualizar os filtros e reaplicar a filtragem
+        $("#filterName").on("keyup", function () {
+            filtroNome = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+
+        $("#filterLocal").on("change", function () {
+            filtroLocal = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+
+        $("#filterCategoria").on("change", function () {
+            filtroCategoria = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+
+        $("#filterEstado").on("change", function () {
+            filtroEstado = $(this).val().toLowerCase();
+            aplicarTodosOsFiltros();
+        });
+    });
+   
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#exportarExcel").click(function () {
+            var nome = $("#filterName").val().trim();
+            var local = $("#filterLocal").val().trim();
+            var categoria = $("#filterCategoria").val().trim();
+            var estado = $("#filterEstado").val().trim();
+
+            // Verificar se o campo de nome está vazio e, se estiver, definir para null
+            if (nome === "") {
+                nome = "%";
+            }
+
+            var queryParams = $.param({ nome, local, categoria, estado });
+            window.location.href = "/exportar?" + queryParams;
+        });
+    });
+
+</script>
+
+
+<script>
+      const video = document.getElementById('qrVideo');
+        const startButton = document.getElementById('startButton');
+        const qrCodeResult = document.getElementById('qrCodeText');
+        let scanning = false;
+
+        startButton.addEventListener('click', function () {
+            if (scanning) {
+                scanning = false;
+                video.srcObject.getTracks().forEach(track => track.stop());
+                startButton.textContent = 'Iniciar Câmera';
+            } else {
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                    .then(function (stream) {
+                        scanning = true;
+                        startButton.textContent = 'Parar Câmera';
+                        video.srcObject = stream;
+                        video.play();
+                        scanQRCode();
+                    }).catch(function (error) {
+                        console.error("Não foi possível acessar a câmera", error);
+                    });
+            }
+        });
+
+   function scanQRCode() {
+        const codeReader = new ZXing.BrowserQRCodeReader();
+        codeReader.decodeFromVideoElement(video).then((result) => {
+            const qrText = result.text.replace(/\s+/g, ''); // Remove todos os espaços
+            const prefixo = qrText.substring(0, 4); // Extrai as 4 primeiras letras
+            qrCodeResult.textContent = qrText;
+            console.log("Prefixo extraído (sem espaços): ", prefixo); // Log dos 4 primeiros dígitos/letras sem espaços
+
+            video.srcObject.getTracks().forEach(track => track.stop());
+            startButton.textContent = 'Iniciar Câmera';
+            scanning = false;
+
+            // Redireciona para a rota com o prefixo como número do patrimônio
+            window.location.href = `/items/visualizarPorPatrimonio/${prefixo}`;
+        }).catch((err) => {
+            console.error(err);
+            qrCodeResult.textContent = 'Erro ao escanear QR Code.';
+        });
+    }
+
+
+
+</script>

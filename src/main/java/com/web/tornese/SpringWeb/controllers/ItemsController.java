@@ -292,6 +292,27 @@ public class ItemsController {
           }
       }
 
+      @GetMapping("/qrcode")
+      public String index3(Model model) {
+
+
+        return "items/qrcode";
+      }
+
+
+      @GetMapping("/items/visualizarPorPatrimonio/{patrimonio}")
+      public String buscarPorPatrimonioERedirecionar(@PathVariable String patrimonio) {
+        Optional<Item> item = repo.findByPatrimonio(patrimonio);
+        System.out.println(patrimonio);
+
+        if (item.isPresent()) {
+          // Redireciona para a URL com o ID do item encontrado
+          return "redirect:/items/visualizar/" + item.get().getId();
+        } else {
+          // Redireciona para a lista de items se nenhum item for encontrado
+          return "redirect:/items";
+        }
+      }
 
 
 }

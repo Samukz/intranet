@@ -12,7 +12,37 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary" style="display: inline-block;">Lista de bens por filtro</h6>
+
+
+
+
+<div class="container">
+    <h2>Scanner de QR Code</h2>
+    <video id="qrVideo" width="320" height="240" autoplay></video>
+    <button id="startButton" class="btn btn-success">Iniciar Câmera</button>
+    <p id="qrCodeText">Texto do QR Code aparecerá aqui...</p>
+</div>
+
+<!-- Bootstrap e jQuery para funcionalidades básicas -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/@zxing/library@latest"></script> <!-- Biblioteca ZXing para JavaScript -->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
             </div>
+            
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
@@ -197,4 +227,44 @@
         });
     });
 
+</script>
+
+
+<script>
+      const video = document.getElementById('qrVideo');
+        const startButton = document.getElementById('startButton');
+        const qrCodeResult = document.getElementById('qrCodeText');
+        let scanning = false;
+
+        startButton.addEventListener('click', function () {
+            if (scanning) {
+                scanning = false;
+                video.srcObject.getTracks().forEach(track => track.stop());
+                startButton.textContent = 'Iniciar Câmera';
+            } else {
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                    .then(function (stream) {
+                        scanning = true;
+                        startButton.textContent = 'Parar Câmera';
+                        video.srcObject = stream;
+                        video.play();
+                        scanQRCode();
+                    }).catch(function (error) {
+                        console.error("Não foi possível acessar a câmera", error);
+                    });
+            }
+        });
+
+        function scanQRCode() {
+            const codeReader = new ZXing.BrowserQRCodeReader();
+            codeReader.decodeFromVideoElement(video).then((result) => {
+                qrCodeResult.textContent = result.text;
+                video.srcObject.getTracks().forEach(track => track.stop());
+                startButton.textContent = 'Iniciar Câmera';
+                scanning = false;
+            }).catch((err) => {
+                console.error(err);
+                qrCodeResult.textContent = 'Erro ao escanear QR Code.';
+            });
+        }
 </script>

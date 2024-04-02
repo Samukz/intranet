@@ -43,6 +43,19 @@
 				<artifactId>thymeleaf</artifactId>
 				<version>3.0.12.RELEASE</version>
 		</dependency>
+		
+		  <!-- ZXing core -->
+    <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>core</artifactId>
+        <version>3.4.1</version>
+    </dependency>
+    <!-- ZXing JavaSE -->
+    <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>javase</artifactId>
+        <version>3.4.1</version>
+    </dependency>
 
 					<!-- Apache POI -->
 			<dependency>

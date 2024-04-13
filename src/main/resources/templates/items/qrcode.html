@@ -145,7 +145,7 @@
         const codeReader = new ZXing.BrowserQRCodeReader();
         codeReader.decodeFromVideoElement(video).then((result) => {
             const qrText = result.text.replace(/\s+/g, ''); // Remove todos os espaços
-            const prefixo = qrText.substring(0, 4); // Extrai as 4 primeiras letras
+            const prefixo = qrText.substring(0, 6); // Extrai as 4 primeiras letras
             qrCodeResult.textContent = qrText;
             console.log("Prefixo extraído (sem espaços): ", prefixo); // Log dos 4 primeiros dígitos/letras sem espaços
 

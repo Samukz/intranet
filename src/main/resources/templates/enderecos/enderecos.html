@@ -1,0 +1,228 @@
+<div th:replace="compartilhado/top"></div>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Olá - <span th:text="${nome}"></span> seja muito bem vindo a intranet da DO IT Logística</h1>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+            
+
+        </div>
+        </p>
+<style>
+    .endereco {
+        width: 7cm;
+        height: 3cm;
+        border: 1px solid black;
+        margin: 10px;
+        display: inline-block;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 2.7cm;
+        /* Centraliza verticalmente o texto */
+        position: relative;
+        /* Necessário para posicionar pseudo-elementos corretamente */
+        font-family: 'Calibri', sans-serif;
+        /* Define a fonte como Calibri, se não disponível, usa sans-serif */
+        font-size: 35px;
+        /* Define o tamanho da fonte */
+        font-weight: bold;
+    }
+
+    .endereco::before,
+    .endereco::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 0.50cm;
+        background-color: #ADADAD;
+    }
+
+    .endereco::before {
+        top: 0;
+    }
+
+    .endereco::after {
+        bottom: 0;
+    }
+
+    .button-row {
+        margin-top: 20px;
+        /* Adiciona uma margem superior de 20px para os botões */
+        display: flex;
+        justify-content: space-between;
+        /* Espaça os botões uniformemente */
+    }
+</style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Gerador de Endereços para Estantes</h1>
+        <form id="enderecoForm" class="row g-3">
+            <div id="inputFields" class="w-100">
+                <!-- Campos iniciais -->
+                <div class="fieldSet row">
+                    <div class="col-md-3">
+                        <label for="regiao1" class="form-label">Rua (ex: R1)</label>
+                        <input type="text" class="form-control" id="regiao1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="estante1" class="form-label">Estante (ex: E1)</label>
+                        <input type="text" class="form-control" id="estante1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="prateleiraInicio1" class="form-label">Início da Prateleira (ex: A1)</label>
+                        <input type="text" class="form-control" id="prateleiraInicio1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="prateleiraFim1" class="form-label">Fim da Prateleira (ex: A6)</label>
+                        <input type="text" class="form-control" id="prateleiraFim1" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 button-row">
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="gerarEnderecos()">Gerar Etiquetas</button>
+                    <button type="button" class="btn btn-secondary" onclick="adicionarCampos()">+</button>
+                </div>
+                <button type="button" class="btn btn-info" onclick="downloadPDF()">Download para Impressão</button>
+
+            </div>
+        </form>
+        <div id="enderecos"></div>
+    </div>
+
+    <script src="script.js"></script>
+
+
+</div>
+<div th:replace="compartilhado/baixo"></div>
+
+<script>
+
+    let fieldCount = 1; // Contador para garantir IDs únicos
+
+        function adicionarCampos() {
+            fieldCount++;
+            const baseDiv = document.getElementById('inputFields');
+            const newFieldSet = document.createElement('div');
+            newFieldSet.className = 'fieldSet row'; // Adiciona a classe 'row' para cada conjunto
+            newFieldSet.innerHTML = `
+        <div class="col-md-3">
+            <label for="regiao${fieldCount}" class="form-label">Região (ex: R1)</label>
+            <input type="text" class="form-control" id="regiao${fieldCount}" required>
+        </div>
+        <div class="col-md-3">
+            <label for="estante${fieldCount}" class="form-label">Estante (ex: E1)</label>
+            <input type="text" class="form-control" id="estante${fieldCount}" required>
+        </div>
+        <div class="col-md-3">
+            <label for="prateleiraInicio${fieldCount}" class="form-label">Início da Prateleira (ex: A1)</label>
+            <input type="text" class="form-control" id="prateleiraInicio${fieldCount}" required>
+        </div>
+        <div class="col-md-3">
+            <label for="prateleiraFim${fieldCount}" class="form-label">Fim da Prateleira (ex: A6)</label>
+            <input type="text" class="form-control" id="prateleiraFim${fieldCount}" required>
+        </div>`;
+            baseDiv.appendChild(newFieldSet);
+        }
+   function gerarEnderecos() {
+        const enderecosDiv = document.getElementById('enderecos');
+        enderecosDiv.innerHTML = ''; // Limpa etiquetas anteriores
+
+        document.querySelectorAll('.fieldSet').forEach((set, index) => {
+            const regiao = document.getElementById(`regiao${index + 1}`).value;
+            const estante = document.getElementById(`estante${index + 1}`).value;
+            const inicio = document.getElementById(`prateleiraInicio${index + 1}`).value;
+            const fim = document.getElementById(`prateleiraFim${index + 1}`).value;
+
+            const inicioNum = parseInt(inicio.slice(1));
+            const fimNum = parseInt(fim.slice(1));
+
+            for (let i = inicioNum; i <= fimNum; i++) {
+                // Definindo a quantidade de espaços desejada
+                const numeroDeEspacos = 5; // Você pode ajustar o número de espaços conforme necessário
+                const espacos = Array(numeroDeEspacos).fill('&nbsp;').join('');
+                const enderecoDiv = document.createElement('div');
+                enderecoDiv.className = 'endereco';
+                enderecoDiv.innerHTML = `${regiao}${espacos}${estante}${espacos}A${i}`;
+                enderecoDiv.style.paddingTop = '5px'; // Ajusta o espaçamento no topo
+                enderecosDiv.appendChild(enderecoDiv);
+            }
+        });
+    }
+
+
+    
+   function downloadPDF() {
+        const enderecoElements = document.querySelectorAll('.endereco');
+        const pdf = new window.jspdf.jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        const etiquetaAltura = 30; // altura da etiqueta em mm
+        const etiquetaLargura = 70; // largura da etiqueta em mm
+        const margemVertical = 1; // margem vertical entre etiquetas em mm
+        const margemHorizontal = 3; // margem horizontal entre colunas de etiquetas em mm
+        const margemTopo = 10; // margem no topo da página em mm
+        const margemLateral = 10; // margem lateral esquerda da página em mm
+        const maxEtiquetasPorColuna = 9; // baseado na altura da página dividida pela altura da etiqueta
+        let etiquetaAtual = 0;
+        let posicaoYAtual = margemTopo; // Inicia com a margem do topo
+
+        enderecoElements.forEach((element, index) => {
+            html2canvas(element, { scale: 3 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+
+                // Calcula a coluna atual (10 para a primeira coluna, 70 + margem + margemLateral para a segunda)
+                let posicaoXAtual = (etiquetaAtual % (maxEtiquetasPorColuna * 2)) < maxEtiquetasPorColuna ? margemLateral : (etiquetaLargura + margemHorizontal + margemLateral);
+
+                if (etiquetaAtual >= maxEtiquetasPorColuna * 2) { // Multiplica por 2 para considerar duas colunas
+                    pdf.addPage();
+                    etiquetaAtual = 0;
+                    posicaoYAtual = margemTopo; // Reseta a posição vertical para a nova página com a margem superior
+                }
+
+                // Adiciona a imagem na posição calculada com as dimensões especificadas para as etiquetas
+                pdf.addImage(imgData, 'PNG', posicaoXAtual, posicaoYAtual, etiquetaLargura, etiquetaAltura);
+                posicaoYAtual += etiquetaAltura + margemVertical; // Atualiza a posição vertical com a margem
+
+                if ((etiquetaAtual + 1) % maxEtiquetasPorColuna == 0) {
+                    posicaoYAtual = margemTopo; // Reseta a posição Y para iniciar a nova coluna com a margem superior
+                }
+
+                etiquetaAtual++; // Incrementa o contador de etiquetas na página atual
+               
+               
+
+
+                if (index === enderecoElements.length - 1) {
+
+                    // // Calcula a largura do texto
+                    // const textWidth = pdf.getStringUnitWidth("Sistema DO IT impressão de etiquetas de endereços.") * pdf.internal.getFontSize() / pdf.internal.scaleFactor;
+
+                    // // Calcula a posição X centralizando o texto
+                    // const posX = (pdf.internal.pageSize.width - textWidth) / 2;
+
+                    // // Define o tamanho da fonte para o texto
+                    // pdf.setFontSize(8); // Altere o tamanho da fonte conforme necessário
+
+                    // // Adiciona o texto no final da página
+                    // pdf.text("Sistema DO IT impressão de etiquetas de endereços.", posX, pdf.internal.pageSize.height - 10);
+                    
+                    pdf.save('download.pdf'); // Salva o PDF apenas após adicionar a última etiqueta
+                }
+            }).catch(error => {
+                console.error("Falha ao gerar a etiqueta PDF:", error);
+            });
+        });
+    }
+
+</script>

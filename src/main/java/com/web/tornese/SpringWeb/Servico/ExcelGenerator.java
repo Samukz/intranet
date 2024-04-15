@@ -5,14 +5,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.web.tornese.SpringWeb.models.Catalogo;
+
 import java.io.OutputStream;
 import java.util.List;
 
-import com.web.tornese.SpringWeb.models.Item;
 
 public class ExcelGenerator {
 
-    public static void generateExcel(List<Item> items, OutputStream outputStream) {
+    public static void generateExcel(List<Catalogo> items, OutputStream outputStream) {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Items");
             Row headerRow = sheet.createRow(0);
@@ -32,19 +33,19 @@ public class ExcelGenerator {
             // Adicione mais cabeçalhos conforme necessário
 
             int rowNum = 1;
-            for (Item item : items) {
+            for (Catalogo item : items) {
                 Row row = sheet.createRow(rowNum++);
 
                 // Preenchendo dados. Certifique-se de que os getters estão corretos.
                 row.createCell(0).setCellValue(item.getId());
-                row.createCell(1).setCellValue(item.getPatrimonio());
-                row.createCell(2).setCellValue(item.getNome());
-                row.createCell(3).setCellValue(item.getValor());
-                row.createCell(4).setCellValue(item.getData());
-                row.createCell(5).setCellValue(item.getLocal());
-                row.createCell(6).setCellValue(item.getCategoria());
-                row.createCell(7).setCellValue(item.getEstado());
-                row.createCell(8).setCellValue(item.getSerie());
+                // row.createCell(1).setCellValue(item.getPatrimonio());
+                // row.createCell(2).setCellValue(item.getNome());
+                // row.createCell(3).setCellValue(item.getValor());
+                // row.createCell(4).setCellValue(item.getData());
+                // row.createCell(5).setCellValue(item.getLocal());
+                // row.createCell(6).setCellValue(item.getCategoria());
+                // row.createCell(7).setCellValue(item.getEstado());
+                // row.createCell(8).setCellValue(item.getSerie());
                 row.createCell(9).setCellValue(item.getMarca());
                 row.createCell(10).setCellValue(item.getModelo());
                 // Continue preenchendo outros dados conforme necessário

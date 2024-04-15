@@ -15,8 +15,9 @@ public class Grupo {
   @Column(name = "grupo", length = 250, nullable = false)
   private String grupo;
 
-  @Column(name = "descricao", length = 250, nullable = false)
-  private String descricao;
+  @Column(name = "subgrupo", length = 250, nullable = false)
+  private String subgrupo;
+
 
   public int getId() {
     return id;
@@ -34,14 +35,12 @@ public class Grupo {
     this.grupo = grupo;
   }
 
-  public String getDescricao() {
-    return descricao;
+  public String getSubgrupo() {
+    return subgrupo;
   }
 
-  public void setDescricao(String descricao) {
-    this.descricao = descricao;
+  public void setSubgrupo(String subgrupo) {
+    this.subgrupo = subgrupo;
   }
-
- 
-  
+   
 }

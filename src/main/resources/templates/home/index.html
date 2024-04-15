@@ -1,205 +1,285 @@
 <div th:replace="compartilhado/top"></div>
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Olá - <span th:text="${nome}"></span> seja muito bem vindo ao gerenciamento de patrimônio da DO IT Logística</h1>
-        </div>
-        </p>
-<div class="row">    
-    <!-- Earnings (Annual) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Total em patrimônio</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="'R$ ' + ${totalValor}"></div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Novo cadastro de bem</h1>
+    <p class="mb-4">
+        Aqui iremos cadastrar um novo bem de patrimonio
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4" style="padding: 30px;">
+        <form id="meuFormulario" form method="POST" action="/items/criar" onsubmit="return validarFormulario()"
+            enctype="multipart/form-data">
+
+            <div class="form-row align-items-center justify-content-between">
+                <div class="col-md-auto">
+                    <h4>Dados do item </h4>
+                </div>
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <div class="form-group col-md-auto">
+                            <label for="datacadastro">Data Cadastro</label>
+                            <input type="text" class="form-control" id="datacadastro" name="datacadastro" readonly>
+                            <input type="hidden" id="dataescondida" name="dataescondida" value="dataoculta">
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <!-- Novo campo adicionado ao lado -->
+                            <label for="pessoa">Usuário</label>
+                            <input type="text" class="form-control" id="pessoa" name="pessoa" th:value="${nome}"
+                                readonly>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Tasks Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Quant. bens
-                        </div>
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" th:text="${totalItems}"></div>
-                            </div>
-                            <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="form-row mb-3">
+                    <div class="col-md-2">
+                        <label for="marca">Código Viva Rio</label>
+                        <input type="text" class="form-control" placeholder="Código VR" id="codigo" name="codigo">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="marca2">Código Sigma</label>
+                        <input type="text" class="form-control" placeholder="Código Sigma" id="sigma" name="sigma">
+                    </div>
+                </div>
+
+                <div class="form-row mb-3"> <!-- Margem adicionada aqui -->
+                    <div class="form-group col-md-6">
+                        <label for="nome">Item</label>
+                        <input type="text" class="form-control" id="item" name="item" placeholder="Nomenclatura" required>
+                    </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="local">Unidade Medida</label>
+                                    <select class="form-control" id="unmedida" name="unmedida">
+                                        <option value="Novo">Novo</option>
+                                        <option value="Semi-novo">Semi-novo</option>
+                                        <option value="Usado">Usado</option>
+                                        <option value="Obsoleto ">Obsoleto</option>
+                                        <option value="Inservível">Inservível</option>
+                                    </select>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-chart-pie fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-            <!-- Tasks Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"> Quantidade de bens ativos</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${totalItemsObsoletos}"></div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                <div class="col">
+                                    <label for="modelo">Sigla Un</label>
+                                    <input type="text" class="form-control" placeholder="UN" id="siglaunmedida" name="siglaunmedida" style="width: 15%;">
+                                </div>
+                
 
-        <!-- Tasks Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-dark shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1"> Maior valor bem cadastrado
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="'R$ ' + ${maiorValor}"></div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label for="teste">Marca</label>
+                    <input type="text" class="form-control" placeholder="Número de série" id="marca" name="marca">
+                </div>
+                <div class="col-md-3">
+                    <label for="teste">Modelo</label>
+                    <input type="text" class="form-control" placeholder="Modelo" id="modelo" name="modelo">
+                </div>
+
+                                <div class="col-md-3">
+                                    <label for="teste">Fabricante</label>
+                                    <input type="text" class="form-control" placeholder="Fabricante" id="fabricante" name="fabricante">
+                                </div>
+
+                <!-- <div class="form-group col-md-4">
+                    <label for="grupo">Categoria</label>
+                    <select class="form-control" id="categoria" name="categoria">
+                        <th:block th:each="grupo : ${Grupo}">
+                            <option th:value="${grupo.grupo}" th:text="${grupo.grupo}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="patrimonio">Nº Patrimônio</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="patrimonio" name="patrimonio"
+                            placeholder="Digite o número do Patrimônio" required>
+                        <div class="input-group-append">
+                            <button id="botaoPesquisar" class="btn btn-outline-secondary" type="button">Pesquisar</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div> 
+                    Colocado fora do input-group para aparecer abaixo do botão -->
+                    <!-- <p id="resultadoPesquisa" style="padding-top: 10px;"></p>
+                </div> -->
 
 
-</div>       
-<div class="row">
-    <div class="col-xl-6 col-lg-7">
-        <!-- Primeiro Gráfico: Evolução do patrimônio -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Aquisição por período</h6>
-                <!-- Cabeçalho do card omitido para brevidade -->
+
             </div>
-            <div class="card-body">
-                <div class="chart-area">
-                    <!-- Conteúdo do primeiro gráfico omitido para brevidade -->
-                    <canvas id="meuchart" width="635" height="320" class="chartjs-render-monitor"></canvas>
+
+            <!-- Adicionando uma quebra com linha pontilhada -->
+            <hr style="border-top: 1px dotted #8c8b8b;">
+
+            <h4>Identificação de Grupos</h4>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="local">Grupo</label>
+                    <select class="form-control" id="grupo" name="grupo">
+                        <th:block th:each="unidade : ${unidades}">
+                            <option th:text="${unidade.nomeunidade}" th:value="${unidade.nomeunidade}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="armazenagem">Subgrupo</label>
+                    <select class="form-control" id="subgrupo" name="subgrupo">
+                        <!-- Iterates over the 'Armazenagem' and displays each one as an option -->
+                        <th:block th:each="armazenagem : ${Armazenagem}">
+                            <option th:text="${armazenagem.local}" th:value="${armazenagem.local}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="armazenagem">Tipo</label>
+                    <select class="form-control" id="tipo" name="tipo">
+                        <!-- Iterates over the 'Armazenagem' and displays each one as an option -->
+                        <th:block th:each="armazenagem : ${Armazenagem}">
+                            <option th:text="${armazenagem.local}" th:value="${armazenagem.local}"></option>
+                        </th:block>
+                    </select>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-xl-6 col-lg-7">
-        <!-- Segundo Gráfico: Adicione um título apropriado -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Total em valor de bens distribuídos por projeto</h6>
-                <!-- Cabeçalho do card ajustado para o segundo gráfico -->
+            <!-- Adicionando uma quebra com linha pontilhada -->
+            <hr style="border-top: 1px dotted #8c8b8b;">
+
+            <h4>Especificações Detalhadas do item</h4>
+<!-- 
+            <div class="row"> -->
+                
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Observações gerais sobre o cadastro do
+                    item</label>
+                <textarea class="form-control" id="especificacao" name="especificacao" rows="3"></textarea>
             </div>
-            <div class="card-body">
-                <div class="chart-area">
-                    <!-- Ajuste o conteúdo conforme necessário -->
-                    <canvas id="meuchart2" width="635" height="320" class="chartjs-render-monitor"></canvas>
-                </div>
+
+            <div class="mb-3" style="width: 30%;">
+                <label for="formFile" class="form-label">Selecione a imagem</label>
+                <input class="form-control" style="width: 100%;" type="file" id="customFileLang" name="imagem">
+            
             </div>
-        </div>
+                    
+            <style>
+/* Estilo base do switch */
+.form-check-input {
+  position: relative;
+  width: 40px;  /* Largura reduzida do switch */
+  height: 20px; /* Altura reduzida do switch */
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ccc;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 10px; /* Bordas arredondadas ajustadas */
+}
+
+/* Estilo do botão deslizante dentro do switch */
+.form-check-input:checked {
+  background: #335ACB;
+}
+
+/* Círculo que move dentro do switch */
+.form-check-input:before {
+  position: absolute;
+  content: "";
+  width: 16px; /* Tamanho reduzido do círculo */
+  height: 16px; /* Tamanho reduzido do círculo */
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  background: white;
+  transition: 0.3s;
+}
+
+/* Movimento do círculo quando o switch está ativo */
+.form-check-input:checked:before {
+  left: 22px; /* Ajuste na posição de movimento para a direita */
+}
+
+/* Ajuste do alinhamento vertical do texto do label */
+.form-check-label {
+  position: relative;
+  top: -5px; /* Alinha o texto verticalmente com o switch */
+}
+
+
+
+
+            </style>
+
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Hospital Municipal Albert Schweitzer</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Hospital Municipal Francisco da Silva Telles</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Hospital Municipal da Piedade</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Hospital Municipal de Araucária</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Upas Fortaleza</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">APS</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">RAPS</label>
+            </div>
+
+
+            <!-- Adicione um estilo inline ao botão para dar espaço -->
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Cadastrar</button>
+        </form>
+
     </div>
+
 </div>
-</div>
+<!-- /.container-fluid -->
 <div th:replace="compartilhado/baixo"></div>
 
+<script>
 
-
-
-<script th:inline="javascript">
-
-    var ctx = document.getElementById('meuchart').getContext('2d');
-    var sumValorByData = /*[[${sumValorByData}]]*/[]; // Thymeleaf syntax to insert data into JavaScript
-    var dates = sumValorByData.map(item => item[0]); // Extract dates
-    var sums = sumValorByData.map(item => item[1]); // Extract sums
-
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: dates,
-            datasets: [{
-                label: 'Valor Total',
-                data: sums,
-                backgroundColor: [
-                    'rgba(78, 115, 223, 0.05)',
-                ],
-                borderColor: [
-                    'rgba(78, 115, 223, 1)',
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true, // Adiciona responsividade ao gráfico
-            maintainAspectRatio: false, // Permite que o gráfico estique em todas as direções
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+    // Função para formatar a data e hora para DD/MM/AAAA HH:MM:SS
+        function formatarDataHora(data) {
+            let dia = data.getDate().toString().padStart(2, '0');
+            let mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Janeiro é 0
+            let ano = data.getFullYear();
+            let horas = data.getHours().toString().padStart(2, '0');
+            let minutos = data.getMinutes().toString().padStart(2, '0');
+            let segundos = data.getSeconds().toString().padStart(2, '0');
+            return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
         }
-    });
+
+        // Inserir a data e hora atual no campo de entrada
+        function inserirDataHoraAtual() {
+            let dataAtual = new Date();
+            let dataHoraFormatada = formatarDataHora(dataAtual);
+            document.getElementById('datacadastro').value = dataHoraFormatada;
+        }
+
+        // Chama a função quando a página carrega
+        window.onload = inserirDataHoraAtual;
+
+
 </script>
 
-<script th:inline="javascript">
-
-    var ctx = document.getElementById('meuchart2').getContext('2d');
-    var sumValorPorLocal = /*[[${sumValorPorLocal}]]*/[]; // Thymeleaf syntax to insert data into JavaScript
-    var locais = sumValorPorLocal.map(item => item[0]); // Extrai os locais
-    var valores = sumValorPorLocal.map(item => item[1]); // Extrai os valores
-
-    var myChart = new Chart(ctx, {
-        type: 'pie', // Muda para 'pie' para criar um gráfico de pizza
-        data: {
-            labels: locais,
-            datasets: [{
-                label: 'Valor por Local',
-                data: valores,
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)', // Azul
-                    'rgba(75, 192, 192, 0.2)', // Verde-água
-                    'rgba(153, 102, 255, 0.2)', // Roxo
-                    'rgba(255, 159, 64, 0.2)', // Laranja
-                    'rgba(199, 199, 199, 0.2)', // Cinza
-                    // Adicione mais cores conforme necessário
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)', // Azul
-                    'rgba(75, 192, 192, 1)', // Verde-água
-                    'rgba(153, 102, 255, 1)', // Roxo
-                    'rgba(255, 159, 64, 1)', // Laranja
-                    'rgba(199, 199, 199, 1)', // Cinza
-                    // E também definir bordas para cada um, se necessário
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true, // Adiciona responsividade ao gráfico
-            maintainAspectRatio: false, // Permite que o gráfico estique em todas as direções
-        }
-    });
-</script>

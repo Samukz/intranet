@@ -34,14 +34,13 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.StorageOptions;
 import com.web.tornese.SpringWeb.Servico.CookieService;
 import com.web.tornese.SpringWeb.Servico.ExcelGenerator;
-import com.web.tornese.SpringWeb.Servico.ItemService;
 import com.web.tornese.SpringWeb.models.Armazenagem;
+import com.web.tornese.SpringWeb.models.Catalogo;
 import com.web.tornese.SpringWeb.models.Grupo;
-import com.web.tornese.SpringWeb.models.Item;
 import com.web.tornese.SpringWeb.models.Unidades;
 import com.web.tornese.SpringWeb.repositorio.ArmazenagemRepository;
+import com.web.tornese.SpringWeb.repositorio.CatalogoRepo;
 import com.web.tornese.SpringWeb.repositorio.GruposRepository;
-import com.web.tornese.SpringWeb.repositorio.ItemsRepo;
 import com.web.tornese.SpringWeb.repositorio.UnidadesRepository;
 
 import org.springframework.util.StringUtils;
@@ -50,18 +49,18 @@ import org.springframework.util.StringUtils;
 public class ItemsController {
 
   @Autowired
-  private ItemsRepo repo;
+  private CatalogoRepo repo;
 
   @GetMapping("/items")
   public String index(Model model){
-    List<Item> items = (List<Item>)repo.findAll();
+    List<Catalogo> items = (List<Catalogo>)repo.findAll();
     model.addAttribute("items", items);
     return "items/index";
   }
 
   @GetMapping("/items/relatorio")
   public String index2(Model model) {
-    List<Item> items = (List<Item>) repo.findAll();
+    List<Catalogo> items = (List<Catalogo>) repo.findAll();
     model.addAttribute("items", items);
 
     List<Unidades> unidades = unidadesRepository.findAll(); // Busca todas as unidades
@@ -119,14 +118,13 @@ public class ItemsController {
 
 
         @PostMapping("/items/criar")
-        public String criar(Item item, @RequestParam("imagem") MultipartFile imagem,
-            @RequestParam("notafiscal") MultipartFile notafiscal) throws IOException {
+        public String criar(Catalogo item, @RequestParam("imagem") MultipartFile imagem) throws IOException {
           if (!imagem.isEmpty()) {
             String nomeDoArquivoImagem = StringUtils.cleanPath(Objects.requireNonNull(imagem.getOriginalFilename()));
             String extensaoImagem = nomeDoArquivoImagem.substring(nomeDoArquivoImagem.lastIndexOf('.'));
             String nomeDoArquivoUnicoImagem = UUID.randomUUID().toString() + extensaoImagem;
 
-            BlobId blobIdImagem = BlobId.of("imagens_doit", "img-uploads/" + nomeDoArquivoUnicoImagem);
+            BlobId blobIdImagem = BlobId.of("imagens_doit", "img-uploads-catalogo/" + nomeDoArquivoUnicoImagem);
             BlobInfo blobInfoImagem = BlobInfo.newBuilder(blobIdImagem).build();
 
             com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
@@ -134,39 +132,22 @@ public class ItemsController {
 
             String imageUrl = "https://storage.googleapis.com/" + blobImagem.getBucket() + "/" + blobImagem.getName();
             item.setCaminhoDaImagem(imageUrl);
+          } else {
+            
+            // Defina um valor padrão ou permita que o caminho da imagem seja nulo, conforme
+            // a política de sua aplicação
+            item.setCaminhoDaImagem("caminho/padrão/para/imagem.jpg"); // Exemplo de caminho padrão
           }
 
-          if (!notafiscal.isEmpty()) {
-            String nomeDoArquivoNota = StringUtils.cleanPath(Objects.requireNonNull(notafiscal.getOriginalFilename()));
-            String extensaoNota = nomeDoArquivoNota.substring(nomeDoArquivoNota.lastIndexOf('.'));
-            String nomeDoArquivoUnicoNota = UUID.randomUUID().toString() + extensaoNota;
-
-            BlobId blobIdNota = BlobId.of("imagens_doit", "nota-fiscal-uploads/" + nomeDoArquivoUnicoNota); // Crie uma
-                                                                                                            // nova
-                                                                                                            // pasta
-                                                                                                            // para
-                                                                                                            // notas
-                                                                                                            // fiscais
-            BlobInfo blobInfoNota = BlobInfo.newBuilder(blobIdNota).build();
-
-            // Cria a conexão com o Storage para o arquivo de nota fiscal
-            com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
-            Blob blobNota = storage.create(blobInfoNota, notafiscal.getBytes());
-
-            String notaFiscalUrl = "https://storage.googleapis.com/" + blobNota.getBucket() + "/" + blobNota.getName();
-            item.setCaminhoDaNotaFiscal(notaFiscalUrl); // Supondo que você tenha um campo para isso em seu objeto item
-          }
-
-
-    repo.save(item);
-    return "redirect:/items";
-}
+          repo.save(item);
+          return "redirect:/items";
+        }
 
 
 
         @GetMapping("/items/{id}")
         public String busca(@PathVariable int id, Model model) {
-          Optional<Item> item = repo.findById(id);
+          Optional<Catalogo> item = repo.findById(id);
           List<Grupo> grupos = GruposRepository.findAll(); // Supondo que você tenha um repositório chamado grupoRepo
           List<Unidades> unidades = unidadesRepository.findAll();
           List<Armazenagem> armazenagemList = ArmazenagemRepository.findAll();
@@ -184,15 +165,15 @@ public class ItemsController {
         }
 
         @PostMapping("/items/{id}/atualizar")
-        public String atualizar(@PathVariable int id, Item itemAtualizado,
+        public String atualizar(@PathVariable int id, Catalogo itemAtualizado,
             @RequestParam("imagem") MultipartFile imagem,
             @RequestParam("notafiscal") MultipartFile notafiscal) throws IOException {
-          Optional<Item> itemExistenteOp = repo.findById(id);
+          Optional<Catalogo> itemExistenteOp = repo.findById(id);
           if (!itemExistenteOp.isPresent()) {
             return "redirect:/items";
           }
 
-          Item itemExistente = itemExistenteOp.get();
+          Catalogo itemExistente = itemExistenteOp.get();
 
           if (!imagem.isEmpty()) {
             String nomeDoArquivoImagem = StringUtils.cleanPath(Objects.requireNonNull(imagem.getOriginalFilename()));
@@ -206,22 +187,6 @@ public class ItemsController {
             itemExistente.setCaminhoDaImagem(imageUrl);
           } // Se não enviou imagem, mantém a existente
 
-          if (!notafiscal.isEmpty()) {
-            String nomeDoArquivoNota = StringUtils.cleanPath(Objects.requireNonNull(notafiscal.getOriginalFilename()));
-            String extensaoNota = nomeDoArquivoNota.substring(nomeDoArquivoNota.lastIndexOf('.'));
-            String nomeDoArquivoUnicoNota = UUID.randomUUID().toString() + extensaoNota;
-            BlobId blobIdNota = BlobId.of("imagens_doit", "nota-fiscal-uploads/" + nomeDoArquivoUnicoNota);
-            BlobInfo blobInfoNota = BlobInfo.newBuilder(blobIdNota).build();
-            com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
-            Blob blobNota = storage.create(blobInfoNota, notafiscal.getBytes());
-            String notaFiscalUrl = "https://storage.googleapis.com/" + blobNota.getBucket() + "/" + blobNota.getName();
-            itemExistente.setCaminhoDaNotaFiscal(notaFiscalUrl);
-          } // Se não enviou nota fiscal, mantém a existente
-
-          // Aqui você pode atualizar os demais campos do itemExistente com os valores de
-          // itemAtualizado
-          // Este passo depende de como você deseja lidar com os outros campos no processo
-          // de atualização
 
           repo.save(itemExistente); // Atualiza o item existente com novas informações
 
@@ -237,7 +202,7 @@ public class ItemsController {
               @GetMapping("/items/visualizar/{id}")
               public String buscar(@PathVariable int id, Model model) {
                 List<Unidades> unidades = unidadesRepository.findAll(); // Busca todas as unidades
-                Optional<Item> item = repo.findById(id);
+                Optional<Catalogo> item = repo.findById(id);
                 try {
                   model.addAttribute("item", item.get());
 
@@ -257,62 +222,5 @@ public class ItemsController {
           model.addAttribute("unidades", unidades); // Adiciona a lista de unidades ao modelo
           return "local"; // Substitua pelo nome do seu arquivo HTML
       }
-
-      @GetMapping("/verificarExistencia")
-      public ResponseEntity<Boolean> verificarExistencia(@RequestParam("numeroPatrimonio") String numeroPatrimonio) {
-        System.out.println("Solicitação para verificar existência do patrimônio: " + numeroPatrimonio);
-        int count = repo.existsByNumeroPatrimonio(numeroPatrimonio);
-        boolean existe = count > 0;
-        System.out.println("Existe: " + existe);
-        return ResponseEntity.ok(existe);
-      }
-
-      @RestController
-      public class ExportController {
-
-          private final ItemService itemService; // Supondo que você tenha um serviço para buscar os itens
-
-          public ExportController(ItemService itemService) {
-              this.itemService = itemService;
-          }
-
-          @GetMapping("/exportar")
-          public StreamingResponseBody exportarExcel(HttpServletResponse response,
-                                                      @RequestParam(required = false) String nome,
-                                                      @RequestParam(required = false) String local,
-                                                      @RequestParam(required = false) String categoria,
-                                                      @RequestParam(required = false) String estado) {
-              response.setContentType("application/vnd.ms-excel");
-              response.setHeader("Content-Disposition", "attachment; filename=\"export-items.xlsx\"");
-
-              return outputStream -> {
-                  List<Item> itemsFiltrados = itemService.buscarItensFiltrados(nome, local, categoria, estado);
-                  ExcelGenerator.generateExcel(itemsFiltrados, outputStream);
-              };
-          }
-      }
-
-      @GetMapping("/qrcode")
-      public String index3(Model model) {
-
-
-        return "items/qrcode";
-      }
-
-
-      @GetMapping("/items/visualizarPorPatrimonio/{patrimonio}")
-      public String buscarPorPatrimonioERedirecionar(@PathVariable String patrimonio) {
-        Optional<Item> item = repo.findByPatrimonio(patrimonio);
-        System.out.println(patrimonio);
-
-        if (item.isPresent()) {
-          // Redireciona para a URL com o ID do item encontrado
-          return "redirect:/items/visualizar/" + item.get().getId();
-        } else {
-          // Redireciona para a lista de items se nenhum item for encontrado
-          return "redirect:/items";
-        }
-      }
-
 
 }

@@ -1,0 +1,176 @@
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+    <style>
+        /* Ocultar a coluna ID */
+        .hide-column {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="compartilhado/top"></div>
+
+<!-- Campo escondido para armazenar o nome do usuário atual -->
+<input type="hidden" id="currentUserName" th:value="${nome}">
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h1 class="h3 text-gray-800 mt-2">Imprimir Avaliação Preenchida</h1>
+            <img src="img/img-uploads/2log.png" style="height: 40pt;" alt="Logo">
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <!-- Filtros -->
+                            <th colspan="11">
+                                <div class="form-row">
+                                    <div class="col-md-3">
+                                        <label for="filterName">Razão Social</label>
+                                        <input type="text" class="form-control" placeholder="Nome do Fornecedor" id="filterName">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="filterLocal">Centro de Custo</label>
+                                        <select class="form-control" id="filterLocal">
+                                            <option value="">Todos</option>
+                                            <!-- Iterar sobre a lista de unidades -->
+                                            <th:block th:each="unidade : ${unidades}">
+                                                <option th:value="${unidade.nomeunidade}" th:text="${unidade.nomeunidade}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="usuario">Usuário</label>
+                                        <select class="form-control" id="usuario">
+                                            <option value="">Todos</option>
+                                            <!-- Iterar sobre a lista de administradores -->
+                                            <th:block th:each="admin : ${administradores}">
+                                                <option th:value="${admin.nome}" th:text="${admin.nome}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                   
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="d-block invisible">Espaço em branco</label>
+                                        <!-- Adicione um espaço em branco para manter a aparência consistente -->
+                                        <!-- <button type="button" class="btn btn-success btn-block mt-2" id="exportarExcel">Exportar PDF</button>
+                                    </div> -->
+                                </div>
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <th class="hide-column">Id</th>
+                            <th>Razão Social</th>
+                            <th>Nº Nota Fiscal</th>
+                            <th>Centro de Custo</th>
+                            <th>Usuário</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="hide-column">Id</th>
+                            <th>Razão Social</th>
+                            <th>Nº Nota Fiscal</th>
+                            <th>Centro de Custo</th>
+                            <th>Usuário</th>
+                            <th>Ação</th>
+                        </tr>
+                    </tfoot>
+                    <tbody id="dataTableBody">
+                        <tr th:each="item : ${items}">
+                            <td class="hide-column" th:text="${item.id}"></td>
+                            <td th:text="${item.fornecedor.razao}"></td>
+                            <td>
+                                <ul>
+                                    <li th:each="nota : ${item.notasFiscais}">
+                                        <span th:text="${nota.numeroNotaFiscal}"></span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li th:each="nota : ${item.notasFiscais}">
+                                        <span th:text="${nota.centroDeCusto}"></span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td th:text="${item.usuariocadastrado}"></td>
+                            <td>
+                                <a th:href="@{'/formulario/' + ${item.id}}" class="btn btn-info">
+                                    <i class="fas fa-print"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<div th:replace="compartilhado/baixo"></div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var dataTable = $('#dataTable').DataTable({
+            "paging": true,
+            "lengthMenu": [10],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json"
+            },
+            "columnDefs": [
+                { "targets": [0], "visible": false } // Ocultar a primeira coluna (ID)
+            ],
+            "dom": 'lrtip' // Remove o campo de pesquisa padrão
+        });
+
+        // Define o valor do dropdown "Usuário" com o nome do usuário atual
+        var currentUserName = document.getElementById('currentUserName').value;
+        if (currentUserName) {
+            document.getElementById('usuario').value = currentUserName;
+            filterTable(); // Chama a função de filtragem para aplicar o filtro inicial
+        }
+
+        document.getElementById('filterName').addEventListener('input', function () {
+            filterTable();
+        });
+
+        document.getElementById('usuario').addEventListener('change', function () {
+            filterTable();
+        });
+
+        document.getElementById('filterLocal').addEventListener('change', function () {
+            filterTable();
+        });
+
+        function filterTable() {
+            var filterName = document.getElementById('filterName').value.toUpperCase();
+            var filterUser = document.getElementById('usuario').value.toUpperCase();
+            var filterLocal = document.getElementById('filterLocal').value.toUpperCase();
+
+            dataTable.columns(1).search(filterName);
+            dataTable.columns(4).search(filterUser);
+            dataTable.columns(3).search(filterLocal);
+            dataTable.draw();
+        }
+    });
+</script>

@@ -1,10 +1,9 @@
 package com.web.tornese.SpringWeb.repositorio;
 
-import com.web.tornese.SpringWeb.models.Unidades;
+import com.web.tornese.SpringWeb.models.Item_Unit;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UnidadesRepository extends JpaRepository<Unidades, Long> {
-
+public interface ItemUnitRepository extends JpaRepository<Item_Unit, Integer> {
   // Métodos adicionais, se necessário
 }

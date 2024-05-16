@@ -1,0 +1,276 @@
+<div th:replace="compartilhado/top"></div>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Novo cadastro de bem</h1>
+    <p class="mb-4">
+        Aqui iremos cadastrar um novo bem de patrimonio
+    </p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4" style="padding: 30px;">
+        <form id="meuFormulario" form method="POST" action="/items/criar" onsubmit="return validarFormulario()"
+            enctype="multipart/form-data">
+
+            <div class="form-row align-items-center justify-content-between">
+                <div class="col-md-auto">
+                    <h4>Dados do item </h4>
+                </div>
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <div class="form-group col-md-auto">
+                            <label for="datacadastro">Data Cadastro</label>
+                            <input type="text" class="form-control" id="datacadastro" name="datacadastro" readonly>
+                            <input type="hidden" id="dataescondida" name="dataescondida" value="dataoculta">
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <!-- Novo campo adicionado ao lado -->
+                            <label for="pessoa">Usuário</label>
+                            <input type="text" class="form-control" id="pessoa" name="pessoa" th:value="${nome}"
+                                readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="form-row mb-3">
+                    <div class="col-md-2">
+                        <label for="marca">Código Viva Rio</label>
+                        <input type="text" class="form-control" placeholder="Código VR" id="codigo" name="codigo">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="marca2">Código Sigma</label>
+                        <input type="text" class="form-control" placeholder="Código Sigma" id="sigma" name="sigma">
+                    </div>
+                </div>
+
+                <div class="form-row mb-3"> <!-- Margem adicionada aqui -->
+                    <div class="form-group col-md-6">
+                        <label for="nome">Item</label>
+                        <input type="text" class="form-control" id="item" name="item" placeholder="Nomenclatura" >
+                    </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="unidademedida">Unidade Medida</label>
+                                    <select class="form-control" id="unidademedida" name="unidademedida" onchange="atualizarSigla()">
+                                        <th:block th:each="unidademedida : ${Medidas}">
+                                            <option th:text="${unidademedida.unidademedida}" th:value="${unidademedida.id}"
+                                             th:attr="data-sigla=${unidademedida.siglaun}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+                                <div class="col">
+                                    <label for="modelo">Sigla Un</label>
+                                    <input type="text" class="form-control" placeholder="AD" id="siglaunmedida" name="siglaunmedida" style="width: 15%;" readonly>
+                                </div>
+                
+
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3">
+                    <label for="teste">Marca</label>
+                    <input type="text" class="form-control" placeholder="Marca" id="marca" name="marca">
+                </div>
+                <div class="col-md-3">
+                    <label for="teste">Modelo</label>
+                    <input type="text" class="form-control" placeholder="Modelo" id="modelo" name="modelo">
+                </div>
+
+                                <div class="col-md-3">
+                                    <label for="teste">Fabricante</label>
+                                    <input type="text" class="form-control" placeholder="Fabricante" id="fabricante" name="fabricante">
+                                </div>
+            </div>
+
+            <!-- Adicionando uma quebra com linha pontilhada -->
+            <hr style="border-top: 1px dotted #8c8b8b;">
+
+            <h4>Identificação de Grupos</h4>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="local">Grupo</label>
+                    <select class="form-control" id="grupo" name="grupo">
+                        <th:block th:each="grupo : ${Grupo}">
+                            <option th:text="${grupo.grupo}" th:value="${grupo.grupo}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+
+                <!-- Estrutura básica para o dropdown de subgrupos -->
+                <div class="form-group col-md-5">
+                    <label for="subgrupo">Subgrupo</label>
+                    <select class="form-control" id="subgrupo" name="subgrupo">
+                        <!-- As opções de subgrupos serão inseridas aqui pelo JavaScript -->
+                    </select>
+                </div>
+
+
+                <div class="form-group col-md-3">
+                    <label for="armazenagem">Tipo</label>
+                    <select class="form-control" id="tipo" name="tipo">
+                        <!-- Iterates over the 'Armazenagem' and displays each one as an option -->
+                        <option value=""></option>
+                        <option value="Alta vigilancia">ALTA VIGILANCIA</option>
+
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+            <!-- Adicionando uma quebra com linha pontilhada -->
+            <hr style="border-top: 1px dotted #8c8b8b;">
+
+            <h4>Especificações Detalhadas do item</h4>
+<!-- 
+            <div class="row"> -->
+                
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Observações gerais sobre o cadastro do
+                    item</label>
+                <textarea class="form-control" id="especificacao" name="especificacao" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3" style="width: 30%;">
+                <label for="formFile" class="form-label">Selecione a imagem</label>
+                <input class="form-control" style="width: 100%;" type="file" id="customFileLang" name="imagem">
+            
+            </div>
+                    
+            <style>
+/* Estilo base do switch */
+.form-check-input {
+  position: relative;
+  width: 40px;  /* Largura reduzida do switch */
+  height: 20px; /* Altura reduzida do switch */
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ccc;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 10px; /* Bordas arredondadas ajustadas */
+}
+
+/* Estilo do botão deslizante dentro do switch */
+.form-check-input:checked {
+  background: #335ACB;
+}
+
+/* Círculo que move dentro do switch */
+.form-check-input:before {
+  position: absolute;
+  content: "";
+  width: 16px; /* Tamanho reduzido do círculo */
+  height: 16px; /* Tamanho reduzido do círculo */
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  background: white;
+  transition: 0.3s;
+}
+
+/* Movimento do círculo quando o switch está ativo */
+.form-check-input:checked:before {
+  left: 22px; /* Ajuste na posição de movimento para a direita */
+}
+
+/* Ajuste do alinhamento vertical do texto do label */
+.form-check-label {
+  position: relative;
+  top: -5px; /* Alinha o texto verticalmente com o switch */
+}
+            </style>
+
+        <div th:each="unidade : ${unidades}">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" th:id="${'flexSwitchCheck' + unidade.id}"
+                    th:value="${unidade.id}" name="unidadeIds">
+                <label class="form-check-label" th:for="${'flexSwitchCheck' + unidade.id}"
+                    th:text="${unidade.nomeunidade}"></label>
+            </div>
+        </div>
+
+
+            <!-- Adicione um estilo inline ao botão para dar espaço -->
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Cadastrar</button>
+        </form>
+
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+<div th:replace="compartilhado/baixo"></div>
+
+<script>
+
+    // Função para formatar a data e hora para DD/MM/AAAA HH:MM:SS
+        function formatarDataHora(data) {
+            let dia = data.getDate().toString().padStart(2, '0');
+            let mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Janeiro é 0
+            let ano = data.getFullYear();
+            let horas = data.getHours().toString().padStart(2, '0');
+            let minutos = data.getMinutes().toString().padStart(2, '0');
+            let segundos = data.getSeconds().toString().padStart(2, '0');
+            return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
+        }
+
+        // Inserir a data e hora atual no campo de entrada
+        function inserirDataHoraAtual() {
+            let dataAtual = new Date();
+            let dataHoraFormatada = formatarDataHora(dataAtual);
+            document.getElementById('datacadastro').value = dataHoraFormatada;
+        }
+
+        // Chama a função quando a página carrega
+        window.onload = inserirDataHoraAtual;
+
+
+</script>
+
+<script>
+    function atualizarSigla() {
+        var select = document.getElementById("unidademedida");
+        var sigla = select.options[select.selectedIndex].getAttribute("data-sigla");
+        document.getElementById("siglaunmedida").value = sigla;
+        
+    }
+</script>
+
+<script>
+            document.addEventListener('DOMContentLoaded', function () {
+            const grupoDropdown = document.getElementById('grupo');
+            const subgrupoDropdown = document.getElementById('subgrupo');
+
+            grupoDropdown.addEventListener('change', function () {
+            const grupoSelecionado = this.value;
+                    console.log("Grupo selecionado para fetch:", grupoSelecionado);
+
+            fetch(`/subgrupos?grupo=${encodeURIComponent(grupoSelecionado)}`)
+            .then(response => response.json())
+            .then(subgrupos => {
+            subgrupoDropdown.innerHTML = ''; // Limpa as opções antigas
+            if (subgrupos.length === 0) {
+            subgrupoDropdown.innerHTML = '<option>Nenhum subgrupo encontrado</option>';
+            } else {
+            // Usando innerHTML para simplificar e evitar possíveis erros de manipulação DOM
+            subgrupoDropdown.innerHTML = subgrupos.map(subgrupo => `<option value="${subgrupo}">${subgrupo}</option>`).join('');
+            }
+            })
+            .catch(error => {
+            console.error('Erro ao buscar subgrupos:', error);
+            subgrupoDropdown.innerHTML = '<option>Erro ao carregar subgrupos</option>';
+            });
+            });
+
+            // Inicialização imediata (opcional, dependendo do caso de uso)
+            grupoDropdown.dispatchEvent(new Event('change'));
+            });
+
+
+
+</script>
+

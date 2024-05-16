@@ -1,15 +1,4 @@
 <style>
-  @font-face {
-    font-family: 'Nunito';
-    src: url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
-    /* Você também pode fornecer URLs para diferentes estilos e pesos da fonte, se necessário */
-  }
-
-  #corpoFont {
-    font-family: 'Nunito', sans-serif;
-    width: 75%;
-  }
-
   /* Estilo base do switch */
   .form-check-input {
     position: relative;
@@ -68,198 +57,63 @@
     margin-left: 5pt;
     align-self: center;
   }
-
-  .select2-container .select2-selection--single {
-    background-color: white !important;
-    border-color: lightgray !important;
-    color: rgb(208, 207, 255) !important;
-    font-size: 1em !important;
-    padding-top: 7pt !important;
-    padding-left: 4pt !important;
-    height: 37pt !important;
-    width: 100% !important;
-    font-family: 'Nunito', sans-serif !important;
-  }
-
-  .select2-selection__arrow {
-    background-position: center right;
-    margin-top: 8pt;
-    /* Ajuste conforme necessário */
-  }
-
-  .oculP {
-    display: none;
-  }
-
-  #env-form {
-    margin-top: 20pt;
-    width: 20%;
-    height: 40pt;
-    border: none;
-    border-radius: 30px;
-    background-color: rgb(28, 170, 158);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    /* Ajuste a linha para coincidir com a altura do botão */
-  }
-
-  #env-form:hover {
-    background-color: rgb(27, 155, 174);
-  }
-
-  @media only screen and (max-width: 768px) {
-    #env-form {
-      width: 80%;
-      /* Ajuste o tamanho do botão para dispositivos menores */
-    }
-  }
-
-  #logEsq {
-    width: 100%;
-  }
-
-  #logDir {
-    width: 100%;
-  }
-
-  /* Para telas menores que 576px (Extra small - xs) */
-  @media (max-width: 575.98px) {
-    #corpoFont {
-      width: 100%;
-    }
-
-    #h1form {
-      font-size: 1em;
-      /* Tamanho do título */
-    }
-  }
-
-  /* Para telas entre 576px e 767px (Small - sm) */
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    #corpoFont {
-      width: 100%;
-    }
-
-    #h1form {
-      font-size: 1.5em;
-      /* Tamanho do título */
-    }
-  }
-
-  /* Para telas entre 768px e 991px (Medium - md) */
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    #corpoFont {
-      width: 100%;
-    }
-
-    #h1form {
-      font-size: 2em;
-      /* Tamanho do título */
-    }
-  }
-
-  /* Para telas entre 992px e 1199px (Large - lg) */
-  @media (min-width: 992px) and (max-width: 1199.98px) {
-    #h1form {
-      font-size: 2.5em;
-      /* Tamanho do título */
-    }
-  }
-
-  /* Para telas maiores ou igual a 1200px (Extra large - xl) */
-  @media (min-width: 1200px) {
-    #h1form {
-      font-size: 3em;
-      /* Tamanho do título */
-    }
-  }
 </style>
 
 <!-- No HTML: -->
 <div th:replace="compartilhado/top"></div>
 <!-- Begin Page Content -->
-<div id="corpoFont" class="container-fluid">
+<div class="container-fluid">
 
   <!-- Page Heading -->
-
-  <div class="row mb-4">
-    <div class="col-lg-1 col-md-2 col-sm-3 col-3 logEsq">
-      <img id="logEsq" src="img/img-uploads/Logo_Viva-Rio.png">
-    </div>
-    <div class="col-lg-10 col-md-8 col-sm-6 col-6 text-center d-flex align-items-center justify-content-center">
-      <h1 id="h1form" class="mb-2 text-gray-800">Formulário de Avaliação de Fornecedores</h1>
-    </div>
-    <div class="col-lg-1 col-md-2 col-sm-3 col-3 logDir">
-      <img id="logDir" src="img/img-uploads/DOIT2.png">
-    </div>
-  </div>
-
+  <h1 class="h3 mb-2 text-gray-800">Formulário de Avaliação de Fornecedores</h1>
+  <p class="mb-4">
+    Avaliação de fornecedores - Entrega
+  </p>
 
   <!-- DataTales Example -->
   <div class="card shadow mb-4" style="padding: 30px;">
     <form id="meuFormulario" form method="POST" action="/formulario/cadastrar" enctype="multipart/form-data">
 
-      <!--Script para campo razão sozial-->
-      <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--Script para campo razão sozial-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
-
-
-
-      <!-- Razão Social -->
-      <div class="form-group">
+    <!-- Razão Social -->
+    <div class="form-group">
         <label for="nomeFornecedor" class="col-auto my-2 d-flex">1. Informe a Razão Social do Fornecedor</label>
         <div class="input-group">
-          <select class="form-control form-control-lg select2" id="nomeFornecedor" name="nomefornecedor"
-            placeholder="Pesquisar Fornecedor">
-            <th:block th:each="fornecedor : ${Fornecedores}">
-              <option th:text="${fornecedor.razao}" th:value="${fornecedor.id}"></option>
-            </th:block>
-          </select>
+            <select class="form-control form-control-lg select2" id="nomeFornecedor" name="nomefornecedor" placeholder="Pesquisar Fornecedor">
+                <option value="outros">Outros</option>
+                <th:block th:each="fornecedor : ${Fornecedores}">
+                    <option th:text="${fornecedor.razao}" th:value="${fornecedor.id}"></option>
+                </th:block>
+            </select>
         </div>
-      </div>
+    </div>
 
-      <!-- Script para preenchimento do campo de ID do fornecedor -->
-      <script>
+    <!--Script para campo razão sozial2-->
+    <script>
         $('.select2').select2();
-        $('#nomeFornecedor').change(function () {
-          var fornecedorId = $(this).val();
-          $('#fornecedor').val(fornecedorId);  // Setando o ID no campo oculto
-          if (fornecedorId === '1') {
-            $('#outroFornecedor').show();
-          } else {
-            $('#outroFornecedor').hide();
-          }
+        $('#nomeFornecedor').change(function() {
+            var valorSelecionado = $(this).val().trim().toLowerCase();
+            if (valorSelecionado === 'outros') {
+                $('#outroFornecedor').show();
+            } else {
+                $('#outroFornecedor').hide();
+            }
         });
-      </script>
-
-      <!-- Campo oculto para o ID do fornecedor -->
-      <input type="text" id="fornecedor" name="fornecedor" value="1" style="display: none;">
+    </script>
 
       <!-- Campo para inserir o nome do fornecedor se "outros" for selecionado -->
-      <div id="outroFornecedor" style="display: block;">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label for="outroNomeFornecedor" class="col-auto my-2 d-flex">1.1. Se outros: Nome do Fornecedor e
-              CNPJ</label>
-            <div class="d-flex">
-              <input type="text" class="form-control form-control-lg mr-2" id="outroNomeFornecedor" name="nomeoutros"
-                placeholder="Nome do Fornecedor">
-              <input type="text" class="form-control form-control-lg" id="outroCnpjFornecedor" name="outroCnpjFornecedor"
-                placeholder="CNPJ do Fornecedor">
-            </div>
-          </div>
+      <div id="outroFornecedor" style="display: none;">
+        <div class="form-group">
+          <label for="outroNomeFornecedor" class="col-auto my-2 d-flex">1.1. Se outros: Nome do Fornecedor</label>
+          <input type="text" class="form-control form-control-lg" id="outroNomeFornecedor" name="nomeoutros"
+            placeholder="Nome do Fornecedor">
         </div>
       </div>
 
@@ -267,26 +121,28 @@
       <label class="col-auto my-2 d-flex">2. Nota(s) Fiscal(is)</label>
       <div id="inputFields" class="card shadow mb-4" style="padding: 30px;">
         <div class="form-row fieldSet row">
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-2">
             <label for="inputCity">Nota Fiscal</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <button class="btn btn-outline-primary" type="button" onclick="adicionarCampos()">+</button>
+                <button class="btn btn-outline-primary" type="button"  onclick="adicionarCampos()">+</button>
               </div>
               <input type="text" class="form-control" id="inputCity" name="numeroNotaFiscal">
             </div>
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-2">
             <label for="inputZip">Nº de volumes</label>
             <input type="text" class="form-control" id="inputZip" name="numeroVolumes">
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-3">
+
             <label for="inputState">Selecione o Centro de Custo</label>
+
             <select id="inputState" class="form-control" name="centrodecusto" onchange="exibirCheckbox1()">
               <option selected>Selecione</option>
               <th:block th:each="unidade : ${unidades}">
-                <option th:text="${unidade.nomeunidade}" th:value="${unidade.nomeunidade}"></option>
-              </th:block>
+                                    <option th:text="${unidade.nomeunidade}" th:value="${unidade.nomeunidade}"></option>
+                                </th:block>
             </select>
 
           </div>
@@ -306,19 +162,20 @@
           <legend class="col-form-label col-sm-8 pt-1">3. Veiculo em condições adequadas?</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="veiculo" id="gridRadios20" value="Sim,10" onclick="calcularPontuacao()">
+              <input type="radio" name="veiculo" id="gridRadios20" value="Sim,10"
+                onclick="calcularPontuacao()">
               <label class="col-10" for="gridRadios20">
                 Sim
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="veiculo" id="gridRadios21" value="Nao,0" onclick="calcularPontuacao()">
+              <input type="radio" name="veiculo" id="gridRadios21" value="Nao,0"   onclick="calcularPontuacao()">
               <label class="col-10" for="gridRadios21">
                 Não
               </label>
             </div>
 
-            <div class="oculP" id="pontuacao">Pontuação: 0</div>
+            <div id="pontuacao">Pontuação: 0</div>
 
             <!-- obs veiculo -->
             <div id="obs3" class="form-group" style="display: none;">
@@ -348,8 +205,7 @@
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="entregarealizada" id="gridRadios6"
-                value="Por serviço de postagem (correios e afins),0">
+              <input type="radio" name="entregarealizada" id="gridRadios6" value="Por serviço de postagem (correios e afins),0">
               <label class="col-10" for="gridRadios6">
                 Por serviço de postagem (correios e afins)
               </label>
@@ -372,8 +228,7 @@
 
           <div class="col-sm-10" id="DivergenciaEnt">
             <div class="form-check">
-              <input type="checkbox" id="gridRadios7" name="materialparcial" value="Entrega Parcial de Itens,7.5"
-                onclick="calcularPontuacao5()">
+              <input type="checkbox" id="gridRadios7" name="materialparcial" value="Entrega Parcial de Itens,7.5" onclick="calcularPontuacao5()">
               <label class="col-10" for="gridRadios7">
                 Entrega Parcial de Itens
               </label>
@@ -395,40 +250,35 @@
             </fieldset>
 
             <div class="form-check">
-              <input type="checkbox"
-                value="Especificação divergente de item - devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5"
-                id="especif5" onclick="calcularPontuacao5()" name="divergenciaitem">
+              <input type="checkbox" value="Especificação divergente de item - devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5" id="especif5" onclick="calcularPontuacao5()" name="divergenciaitem">
               <label class="col-10" for="especif5">Especificação divergente de item - devolver os produtos e NÃO assinar
                 o canhoto da
                 nota fiscal</label>
             </div>
 
             <div class="form-check">
-              <input type="checkbox" value="Embalagem danificada,0" id="embDanif5" name="embalagemdanificada"
-                onclick="calcularPontuacao5()">
+              <input type="checkbox" value="Embalagem danificada,0" id="embDanif5" name="embalagemdanificada" onclick="calcularPontuacao5()">
               <label class="col-10" for="embDanif5">Embalagem danificada? (recebi ou não)</label>
             </div>
 
             <fieldset id="perguntasEmbDanif5" style="display: none;">
               <div class="form-group col-sm-10">
                 <div class="form-check">
-                  <input type="radio" name="embalagemdanificadainfo" id="gridRadios8"
-                    value="Embalagem secundária danificada produto recebido,3.75" onclick="calcularPontuacao5_1()">
+                  <input type="radio" name="embalagemdanificadainfo" id="gridRadios8" value="Embalagem secundária danificada – produto recebido,3.75"
+                    onclick="calcularPontuacao5_1()">
                   <label class="col-10" for="gridRadios8">
                     Embalagem secundária danificada – produto recebido
                   </label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" name="embalagemdanificadainfo" id="gridRadios9"
-                    value="O item foi devolvido por conta da embalagem secundária danificada,3.75"
+                  <input type="radio" name="embalagemdanificadainfo" id="gridRadios9" value="O item foi devolvido por conta da embalagem secundária danificada.,3.75"
                     onclick="calcularPontuacao5_1()">
                   <label class="col-10" for="gridRadios9">
                     O item foi devolvido por conta da embalagem secundária danificada.
                   </label>
                 </div>
                 <div class="form-check">
-                  <input type="radio" name="embalagemdanificadainfo" id="gridRadios10"
-                    value="Embalagem primária danificada? Se sim devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5"
+                  <input type="radio" name="embalagemdanificadainfo" id="gridRadios10" value="Embalagem primária danificada? Se sim, devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5"
                     onclick="calcularPontuacao5_1()">
                   <label class="col-10" for="gridRadios10">
                     Embalagem primária danificada? Se sim, devolver os produtos e NÃO assinar o canhoto da nota fiscal
@@ -437,14 +287,11 @@
               </div>
             </fieldset>
 
-            <div class="oculP" id="exibePontuacao5-1">Pontuação: 0</div>
+            <div id="exibePontuacao5-1">Pontuação: 0</div>
 
-          </div>
-
-          <!-- Termolábeis -->
-          <div class="col-sm-10">
+            <!-- Termolábeis -->
             <div class="form-check">
-              <input type="checkbox" value="Termolabeis,0" id="defaultCheck17" name="temolabel">
+              <input type="checkbox" value="Termolabeis,0" id="defaultCheck17" onclick="calcularPontuacao5()" name="temolabel">
               <label class="col-10"> Termolábeis?</label>
 
 
@@ -461,21 +308,23 @@
                   <div class="form-check">
                     <input type="radio" name="termolabelsimnao" id="respostaNao2" value="nao,7.5"
                       onclick="calcularPontuacao5_2()">
-                    <label class="col-10" for="respostaNao2">Não - devolver os produtos e NÃO assinar o canhoto da nota
-                      fiscal</label>
+                    <label class="col-10" for="respostaNao2">Não &nbsp;<span class="mensagem-especificacao2"
+                        style="display: none; color: brown;"> - devolver os produtos e NÃO assinar o canhoto da nota
+                        fiscal </span></label>
                   </div>
                 </div>
               </fieldset>
 
-              <div class="oculP" id="exibePontuacao5-2">Pontuação: 11</div>
+              <div id="exibePontuacao5-2">Pontuação: 11</div>
 
             </div>
+
           </div>
         </div>
       </fieldset>
 
-      <div class="oculP" id="pontuacao5">Pontuação: 0</div>
-      <div class="oculP" id="pontuacaoSoma5">PontuaçãoSoma: 0</div>
+      <div id="pontuacao5">Pontuação: 0</div>
+      <div id="pontuacaoSoma5">PontuaçãoSoma: 0</div>
 
 
 
@@ -488,23 +337,21 @@
             acordo com o produto recebido ?</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="lotevalidade" id="gridRadios11" value="Sim apresenta os dados no corpo da NF,10"
+              <input type="radio" name="lotevalidade" id="gridRadios11" value="Sim, apresenta os dados no corpo da NF,10"
                 onclick="calcularPontuacao6()">
               <label class="col-10" for="gridRadios11">
                 Sim, apresenta os dados no corpo da NF
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="lotevalidade" id="gridRadios12"
-                value="Não apresenta no corpo da NF mas apresentou documento com essas informações,10"
+              <input type="radio" name="lotevalidade" id="gridRadios12" value="Não apresenta no corpo da NF, mas apresentou documento com essas informações,10"
                 onclick="calcularPontuacao6()">
               <label class="col-10" for="gridRadios12">
                 Não apresenta no corpo da NF, mas apresentou documento com essas informações
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="lotevalidade" id="gridRadios13"
-                value="Não apresenta no corpo da NF nem enviou os documentos com essas informações,5"
+              <input type="radio" name="lotevalidade" id="gridRadios13" value="Não apresenta no corpo da NF, nem enviou os documentos com essas informações,5"
                 onclick="calcularPontuacao6()">
               <label class="col-10" for="gridRadios13">
                 Não apresenta no corpo da NF, nem enviou os documentos com essas informações
@@ -513,133 +360,115 @@
           </div>
         </div>
 
-        <div class="oculP" id="pontuacao6">Pontuação: 0</div>
+        <div id="pontuacao6">Pontuação: 0</div>
 
       </fieldset>
 
       <!-- Quais documentos impressos acompanham a(s) NF(s)  -->
       <div class="form-group">
         <label class="col-form-label col-sm-8 pt-1">7. Quais documentos impressos acompanham a(s) NF(s)</label>
-
-        <div class="col-10">
-          <div class="form-check">
-            <input type="checkbox" value="Ordem de fornecimento (OF),10" name="documentoimpressosof" id="defaultCheck1">
-            <label class="col-10" for="defaultCheck1">
-              Ordem de fornecimento (OF)
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Mapa de Cotação (MP)" id="defaultCheck2" name="documentoimpressosmp">
-            <label class="col-10" for="defaultCheck2">
-              Mapa de Cotação (MP)
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="E-mail de autorização de entrega" id="defaultCheck3"
-              name="documentoimpressosemail">
-            <label class="col-10" for="defaultCheck3">
-              E-mail de autorização de entrega
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox"
-              value="Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL"
-              id="defaultCheck4" name="documentoimpressosct">
-            <label class="col-10" for="defaultCheck4">
-              Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL"
-              id="defaultCheck5" name="documentoimpressoscc">
-            <label class="col-10" for="defaultCheck5">
-              Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Carta de lote e validade (LV)" id="defaultCheck6" name="documentoimpressoslv">
-            <label class="col-10" for="defaultCheck6">
-              Carta de lote e validade (LV)
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Somente a Nota Fiscal" id="defaultCheck7" name="documentoimpressossnf">
-            <label class="col-10" for="defaultCheck7">
-              Somente a Nota Fiscal
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Outros/observações" id="defaultCheck8" name="documentoimpressosoutros">
-            <label class="col-10" for="defaultCheck8">
-              Outros/observações
-            </label>
-          </div>
+        <div class="form-check">
+          <input type="checkbox" value="Ordem de fornecimento (OF),10" name="documentoimpressosof" id="defaultCheck1">
+          <label class="col-10" for="defaultCheck1">
+            Ordem de fornecimento (OF)
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Mapa de Cotação (MP)" id="defaultCheck2" name="documentoimpressosmp">
+          <label class="col-10" for="defaultCheck2">
+            Mapa de Cotação (MP)
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="E-mail de autorização de entrega" id="defaultCheck3" name="documentoimpressosemail">
+          <label class="col-10" for="defaultCheck3">
+            E-mail de autorização de entrega
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL" id="defaultCheck4" name="documentoimpressosct">
+          <label class="col-10" for="defaultCheck4">
+            Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL" id="defaultCheck5" name="documentoimpressoscc">
+          <label class="col-10" for="defaultCheck5">
+            Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Carta de lote e validade (LV)" id="defaultCheck6" name="documentoimpressoslv">
+          <label class="col-10" for="defaultCheck6">
+            Carta de lote e validade (LV)
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Somente a Nota Fiscal" id="defaultCheck7" name="documentoimpressossnf">
+          <label class="col-10" for="defaultCheck7">
+            Somente a Nota Fiscal
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Outros/observações" id="defaultCheck8" name="documentoimpressosoutros">
+          <label class="col-10" for="defaultCheck8">
+            Outros/observações
+          </label>
         </div>
 
       </div>
 
       <!-- Quais as informações observadas nos dados adicionais das Nota(s) Fiscal(is) ?  -->
       <div class="form-group">
-        <label class="col-form-label col-sm-8 pt-1">
-          8. Quais as informações observadas nos dados adicionais das Nota(s) Fiscal(is) ?
-        </label>
-
-        <div class="col-10">
-          <div class="form-check">
-            <input type="checkbox" value="Número da Ordem de Requisição (OR)" id="defaultCheck9" name="dadosrodapeOr"
-              class="limpar">
-            <label class="col-10" for="defaultCheck9">
-              Número da Ordem de Requisição (OR)
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Número da Ordem de Fornecimento (OF)" id="defaultCheck10" name="dadosrodapeof"
-              class="limpar">
-            <label class="col-10" for="defaultCheck10">
-              Número da Ordem de Fornecimento (OF)
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Número do processo de aquisição/compra" id="defaultCheck11"
-              name="dadosrodapeaquisicao" class="limpar">
-            <label class="col-10" for="defaultCheck11">
-              Número do processo de aquisição/compra
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Número do centro de custo" id="defaultCheck12" name="dadosrodapenumcc"
-              class="limpar">
-            <label class="col-10" for="defaultCheck12">
-              Número do centro de custo
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Nome do centro de custo" id="defaultCheck13" name="dadosrodapenomecc"
-              class="limpar">
-            <label class="col-10" for="defaultCheck13">
-              Nome do centro de custo
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Número do Pedido" id="defaultCheck14" name="dadosrodapenumpedido"
-              class="limpar">
-            <label class="col-10" for="defaultCheck14">
-              Número do Pedido
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Nenhuma" id="defaultCheck15" name="dadosrodapenenhuma">
-            <label class="col-10" for="defaultCheck15">
-              Nenhuma
-            </label>
-          </div>
-          <div class="form-check">
-            <input type="checkbox" value="Outros/observações" id="defaultCheck16" name="dadosrodapeoutros"
-              class="limpar">
-            <label class="col-10" for="defaultCheck16">
-              Outros/observações
-            </label>
-          </div>
+        <label class="col-form-label col-sm-8 pt-1">8. Quais as informações observadas nos dados adicionais das Nota(s)
+          Fiscal(is) ?</label>
+        <div class="form-check">
+          <input type="checkbox" value="Número da Ordem de Requisição (OR)" id="defaultCheck9" name="dadosrodapeOr">
+          <label class="col-10" for="defaultCheck9">
+            Número da Ordem de Requisição (OR)
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Número da Ordem de Fornecimento (OF)" id="defaultCheck10" name="dadosrodapeof">
+          <label class="col-10" for="defaultCheck10">
+            Número da Ordem de Fornecimento (OF)
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Número do processo de aquisição/compra" id="defaultCheck11" name="dadosrodapeaquisicao">
+          <label class="col-10" for="defaultCheck11">
+            Número do processo de aquisição/compra
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Número do centro de custo" id="defaultCheck12" name="dadosrodapenumcc">
+          <label class="col-10" for="defaultCheck12">
+            Número do centro de custo
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Nome do centro de custo" id="defaultCheck13" name="dadosrodapenomecc">
+          <label class="col-10" for="defaultCheck13">
+            Nome do centro de custo
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Número do Pedido" id="defaultCheck14" name="dadosrodapenumpedido">
+          <label class="col-10" for="defaultCheck14">
+            Número do Pedido
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Nenhuma" id="defaultCheck15" name="dadosrodapenenhuma">
+          <label class="col-10" for="defaultCheck15">
+            Nenhuma
+          </label>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" value="Outros/observações" id="defaultCheck16" name="dadosrodapeoutros">
+          <label class="col-10" for="defaultCheck16">
+            Outros/observações
+          </label>
         </div>
       </div>
 
@@ -650,13 +479,15 @@
           </legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="agendamento" id="gridRadios14" value="Sim,10" onclick="calcularPontuacao9()">
+              <input type="radio" name="agendamento" id="gridRadios14" value="Sim,10"
+                onclick="calcularPontuacao9()">
               <label class="col-10" for="gridRadios14">
                 Sim
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="agendamento" id="gridRadios15" value="Nao,5" onclick="calcularPontuacao9()">
+              <input type="radio" name="agendamento" id="gridRadios15" value="Nao,5"
+                onclick="calcularPontuacao9()">
               <label class="col-10" for="gridRadios15">
                 Não
               </label>
@@ -664,7 +495,7 @@
           </div>
         </div>
 
-        <div class="oculP" id="pontuacao9">Pontuação: 0</div>
+        <div id="pontuacao9">Pontuação: 0</div>
 
       </fieldset>
 
@@ -686,8 +517,7 @@
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="datahoracumprida" id="gridRadios19"
-                value="N/A (marcar somente se o fornecedor não agendou a entrega),11">
+              <input type="radio" name="datahoracumprida" id="gridRadios19" value="N/A (marcar somente se o fornecedor não agendou a entrega),11">
               <label class="col-10" for="gridRadios19">
                 N/A (marcar somente se o fornecedor não agendou a entrega)
               </label>
@@ -703,13 +533,15 @@
           <legend class="col-form-label col-sm-8 pt-1">11. Carga estava organizada por nota fiscal?</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="organizadanf" id="gridRadios23" value="Sim,10" onclick="calcularPontuacao11()">
+              <input type="radio" name="organizadanf" id="gridRadios23" value="Sim,10"
+                onclick="calcularPontuacao11()">
               <label class="col-10" for="gridRadios23">
                 Sim
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="organizadanf" id="gridRadios24" value="Nao,5" onclick="calcularPontuacao11()">
+              <input type="radio" name="organizadanf" id="gridRadios24" value="Nao,5"
+                onclick="calcularPontuacao11()">
               <label class="col-10" for="gridRadios24">
                 Não
               </label>
@@ -724,7 +556,7 @@
           </div>
         </div>
 
-        <div class="oculP" id="pontuacao11">Pontuação: 0</div>
+        <div id="pontuacao11">Pontuação: 0</div>
 
       </fieldset>
 
@@ -734,13 +566,15 @@
           <legend class="col-form-label col-sm-8 pt-1">12. Carga estava devidamente embalada e lacrada?</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="cargaembalada" id="gridRadios26" value="Sim,10" onclick="calcularPontuacao12()">
+              <input type="radio" name="cargaembalada" id="gridRadios26" value="Sim,10"
+                onclick="calcularPontuacao12()">
               <label class="col-10" for="gridRadios26">
                 Sim
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="cargaembalada" id="gridRadios27" value="Nao,5" onclick="calcularPontuacao12()">
+              <input type="radio" name="cargaembalada" id="gridRadios27" value="Nao,5"
+                onclick="calcularPontuacao12()">
               <label class="col-10" for="gridRadios27">
                 Não
               </label>
@@ -755,7 +589,7 @@
           </div>
         </div>
 
-        <div class="oculP" id="pontuacao12">Pontuação: 0</div>
+        <div id="pontuacao12">Pontuação: 0</div>
 
       </fieldset>
 
@@ -766,13 +600,15 @@
             fornecedor/transportadora disponibilizaram o profissional?</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="ajudante" id="gridRadios29" value="Sim,10" onclick="calcularPontuacao13()">
+              <input type="radio" name="ajudante" id="gridRadios29" value="Sim,10"
+                onclick="calcularPontuacao13()">
               <label class="col-10" for="gridRadios29">
                 Sim
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="ajudante" id="gridRadios30" value="Nao,5" onclick="calcularPontuacao13()">
+              <input type="radio" name="ajudante" id="gridRadios30" value="Nao,5"
+                onclick="calcularPontuacao13()">
               <label class="col-10" for="gridRadios30">
                 Não
               </label>
@@ -780,7 +616,7 @@
           </div>
         </div>
 
-        <div class="oculP" id="pontuacao13">Pontuação: 0</div>
+        <div id="pontuacao13">Pontuação: 0</div>
 
       </fieldset>
 
@@ -790,30 +626,29 @@
           <legend class="col-form-label col-sm-8 pt-1">14. A entrega foi aceita?</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" name="entregaaceita" id="gridRadios32"
-                value="Sim - Carga recebida totalmente - canhoto liberado,10" onclick="calcularPontuacao14()">
+              <input type="radio" name="entregaaceita" id="gridRadios32" value="Sim - Carga recebida totalmente - canhoto liberado,10"
+                onclick="calcularPontuacao14()">
               <label class="col-10" for="gridRadios32">
                 Sim - Carga recebida totalmente - canhoto liberado
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="entregaaceita" id="gridRadios33"
-                value="Sim - Carga recebida parcialmente aguardando solução - canhoto retido,5"
+              <input type="radio" name="entregaaceita" id="gridRadios33" value="Sim - Carga recebida parcialmente, aguardando solução - canhoto retido,5"
                 onclick="calcularPontuacao14()">
               <label class="col-10" for="gridRadios33">
                 Sim - Carga recebida parcialmente, aguardando solução - canhoto retido
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="entregaaceita" id="gridRadios34"
-                value="Não - Carga aguarda recolhimento - canhoto não assinado,0" onclick="calcularPontuacao14()">
+              <input type="radio" name="entregaaceita" id="gridRadios34" value="Não - Carga aguarda recolhimento - canhoto não assinado,0"
+                onclick="calcularPontuacao14()">
               <label class="col-10" for="gridRadios34">
                 Não - Carga aguarda recolhimento - canhoto não assinado
               </label>
             </div>
             <div class="form-check">
-              <input type="radio" name="entregaaceita" id="gridRadios35"
-                value="Não - Carga devolvida de imediato - canhoto não assinado,0" onclick="calcularPontuacao14()">
+              <input type="radio" name="entregaaceita" id="gridRadios35" value="Não - Carga devolvida de imediato - canhoto não assinado,0"
+                onclick="calcularPontuacao14()">
               <label class="col-10" for="gridRadios35">
                 Não - Carga devolvida de imediato - canhoto não assinado
               </label>
@@ -821,7 +656,7 @@
           </div>
         </div>
 
-        <div class="oculP" id="pontuacao14">Pontuação: 0</div>
+        <div id="pontuacao14">Pontuação: 0</div>
 
       </fieldset>
 
@@ -867,37 +702,12 @@
             <th scope="col">100%</th>
             <th scope="col" id="exibirTotal">0</th>
           </tr>
-
-          <input type="hidden" name="Quantidade" id="inputQuantidade">
-          <input type="hidden" name="Prazo" id="inputPrazo">
-          <input type="hidden" name="Qualidade" id="inputQualidade">
-          <input type="hidden" name="Documental" id="inputDocumental">
-          <input type="hidden" name="Total" id="inputTotal">
-
         </thead>
       </table>
 
-
-      <!-- Campo oculto para o nome do usuário -->
-      <input type="hidden" id="nomeUsuario" name="usuariocadastrado" value="">
-
-
-
-      <!-- Espaço maior -->
-      <div style="margin-top: 75px;"></div>
-
-      <!-- Assinatura do Recebedor -->
-      <div class="form-group text-center">
-        <div style="border-bottom: 1px solid #000; width: 30%; margin: 0 auto 10px;"></div>
-        <label class="col-form-label col-sm-8 pt-1">Assinatura e carimbo do recebedor:</label>
-      </div>
-
-
-
       <!-- <button id="calcular" type="button" onclick="atualizaTabela()">Calcular</button> -->
 
-      <button id="env-form" type="submit" class="btn btn-primary">Enviar</button>
-
+      <button type="submit" class="btn btn-primary">Enviar</button>
 
     </form>
 
@@ -910,18 +720,6 @@
 
 
 <script>
-
-  // pegar usuario
-  $(document).ready(function () {
-    // Quando o formulário está prestes a ser enviado
-    $('#meuFormulario').on('submit', function () {
-      // Pegue o texto do link que possui o nome do usuário
-      var nomeUsuario = $('a[name="usuariocadastrado"]').text();
-
-      // Coloque esse nome no campo oculto do formulário
-      $('#nomeUsuario').val(nomeUsuario);
-    });
-  });
 
   // Função para formatar a data e hora para DD/MM/AAAA HH:MM:SS
   function formatarDataHora(data) {
@@ -944,70 +742,66 @@
   // Chama a função quando a página carrega
   window.onload = inserirDataHoraAtual;
 
-  // Função para buscar centros de custo do servidor
-  function buscarCentrosDeCusto() {
-    return $.ajax({
-      url: '/centros-de-custo', // Substitua com a URL do seu endpoint
-      type: 'GET',
-      dataType: 'json'
-    });
-  }
+// Função para buscar centros de custo do servidor
+function buscarCentrosDeCusto() {
+  return $.ajax({
+    url: '/centros-de-custo', // Substitua com a URL do seu endpoint
+    type: 'GET',
+    dataType: 'json'
+  });
+}
 
-  //------------------------------------------------------------------------------------------Nota Fiscal
+// Função para adicionar campos de nota fiscal
+let fieldCount = 1;
 
-  // Função para adicionar campos de nota fiscal
-  let fieldCount = 1;
+function adicionarCampos() {
+  buscarCentrosDeCusto().done(function(centrosDeCusto) {
+    fieldCount++;
+    const baseDiv = document.getElementById('inputFields');
+    const newFieldSet = document.createElement('div');
+    newFieldSet.className = 'form-row fieldSet row';
+    newFieldSet.setAttribute('data-index', fieldCount);  // Adiciona um índice para cada conjunto de campos
 
-  function adicionarCampos() {
-    buscarCentrosDeCusto().done(function (centrosDeCusto) {
-      fieldCount++;
-      const baseDiv = document.getElementById('inputFields');
-      const newFieldSet = document.createElement('div');
-      newFieldSet.className = 'form-row fieldSet row';
-      newFieldSet.setAttribute('data-index', fieldCount);  // Adiciona um índice para cada conjunto de campos
-
-      let selectHTML = `<select class="form-control centro-custo" name="centrodecusto">
+    let selectHTML = `<select class="form-control centro-custo" name="centrodecusto">
       <option selected>Selecione</option>`;
-      centrosDeCusto.forEach(custo => {
-        selectHTML += `<option value="${custo.nomeunidade}">${custo.nomeunidade}</option>`;
-      });
-      selectHTML += '</select>';
+    centrosDeCusto.forEach(custo => {
+      selectHTML += `<option value="${custo.nomeunidade}">${custo.nomeunidade}</option>`;
+    });
+    selectHTML += '</select>';
 
-      newFieldSet.innerHTML = `
-      <div class="form-group col-md-3">
+    newFieldSet.innerHTML = `
+      <div class="form-group col-md-2">
         <label>Nota Fiscal</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <button class="btn btn-outline-primary" type="button"  onclick="adicionarCampos()">+</button>
-          </div>
-          <input type="text" class="form-control nota" name="numeroNotaFiscal">
-          <div class="input-group-append">
             <button class="btn btn-outline-secondary excluir-campos" type="button" onclick="removerCampo(this)">-</button>
           </div>
+          <input type="text" class="form-control nota" name="numeroNotaFiscal">
         </div>
       </div>
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-2">
         <label>Nº de volumes</label>
         <input type="text" class="form-control" name="numeroVolumes">
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-3">
         <label>Selecione o Centro de Custo</label>
         ${selectHTML}
       </div>
     `;
 
-      baseDiv.appendChild(newFieldSet);
-    });
-  }
+    baseDiv.appendChild(newFieldSet);
+  });
+}
 
-  function removerCampo(button) {
-    button.closest('.fieldSet').remove();
-  }
+function removerCampo(button) {
+  button.closest('.fieldSet').remove();
+}
 
-  //Exibe checkbox da primeira nota
-  function exibirCheckbox1() {
-    const selectCentroCusto = document.getElementById(`inputState`);
-    const checkboxDiv = document.getElementById(`checkboxDiv`);
+
+  //Exibe checkbox das notas adicionais
+  function exibirCheckbox(fieldCount) {
+    const selectCentroCusto = document.getElementById(`inputState${fieldCount}`);
+    const checkboxDiv = document.getElementById(`checkboxDiv${fieldCount}`);
     if (selectCentroCusto.value === 'Upa Vilha Velha') {
       checkboxDiv.style.display = 'block';
     } else {
@@ -1015,10 +809,10 @@
     }
   }
 
-  //Exibe checkbox das notas adicionais
-  function exibirCheckbox(fieldCount) {
-    const selectCentroCusto = document.getElementById(`inputState${fieldCount}`);
-    const checkboxDiv = document.getElementById(`checkboxDiv${fieldCount}`);
+  //Exibe checkbox da primeira nota
+  function exibirCheckbox1() {
+    const selectCentroCusto = document.getElementById(`inputState`);
+    const checkboxDiv = document.getElementById(`checkboxDiv`);
     if (selectCentroCusto.value === 'Upa Vilha Velha') {
       checkboxDiv.style.display = 'block';
     } else {
@@ -1035,48 +829,18 @@
     }
   });
 
-  //-------------------------------------------------------------------------------------------------3. Veiculo em condições
 
-  // Adiciona ouvinte de eventos ao radio gridRadios21 e gridRadios20 (obs: veiculo)
-  document.getElementById('gridRadios21').addEventListener('change', function () {
-    if (this.checked) {
-      document.getElementById('obs3').style.display = 'block';
-      document.getElementById('cx-obs3').setAttribute('required', true); // Torna o campo obrigatório
-    }
-  });
-
-  document.getElementById('gridRadios20').addEventListener('change', function () {
-    if (this.checked) {
-      document.getElementById('obs3').style.display = 'none';
-      document.getElementById('cx-obs3').removeAttribute('required'); // Remove a obrigatoriedade do campo
-    }
-  });
-
-  // Calcula pontuação do Veiculo
-  function calcularPontuacao() {
-    // Obter todos os elementos input do tipo radio com o mesmo nome
-    var radios = document.getElementsByName('veiculo');
-
-    var pontuacao = 0;
-
-    // Verificar qual opção está selecionada e adicionar sua pontuação à pontuação total
-    for (var i = 0; i < radios.length; i++) {
-      if (radios[i].checked) {
-        var valor = radios[i].value.split(',')[1]; // Obter o número após a vírgula
-        pontuacao += parseInt(valor, 10); // Converter para número e adicionar à pontuação
-        break; // Sair do loop, já que encontramos a opção selecionada
+  document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (this.id === 'gridRadios8' && this.checked) {
+        document.querySelector('.mensagem-especificacao').style.display = 'inline';
+      } else {
+        document.querySelector('.mensagem-especificacao').style.display = 'none';
       }
-    }
+    });
+  });
 
-    // Exibir pontuação
-    document.getElementById("pontuacao").innerText = "Pontuação: " + pontuacao;
-    atualizaTabela()
-  }
-
-  //-------------------------------------------------------------------------------------------------5. Material Entregue Corretamente
-
-
-  // Exibe 5.1 Entrega Parcial de Itens
+  //exibe radios
   document.getElementById("gridRadios7").addEventListener("change", function () {
     const fieldset = document.getElementById("gridRadios3Adicional1");
     const radios = fieldset.querySelectorAll('input[type="radio"]');
@@ -1090,23 +854,23 @@
     }
   });
 
-  //Exibe Embagem Danificada
-  document.getElementById("embDanif5").addEventListener("change", function () {
-    const divPerguntas = document.getElementById("perguntasEmbDanif5");
-    const radios = divPerguntas.querySelectorAll('input[type="radio"]');
-    if (this.checked) {
-      divPerguntas.style.display = "block";
+
+  // Condição outros fornecedores
+  document.getElementById('nomeFornecedor').addEventListener('input', function () {
+    const valor = this.value.trim().toLowerCase(); // Obtém o valor digitado, removendo espaços em branco extras e tornando-o em minúsculas
+    const outroFornecedor = document.getElementById('outroFornecedor');
+
+    // Verifica se o valor é "outros"
+    if (valor === 'outros') {
+      outroFornecedor.style.display = 'block'; // Exibe o campo para inserir o nome do fornecedor
+      atualizaTabela()
     } else {
-      divPerguntas.style.display = "none";
-      radios.forEach(function (radio) {
-        radio.checked = false;
-      });
-      document.getElementById("exibePontuacao5-1").innerText = "Pontuação: 0";
-      calcularPontuacaoSoma5();
+      outroFornecedor.style.display = 'none'; // Oculta o campo para inserir o nome do fornecedor
+      atualizaTabela()
     }
   });
 
-  // Exibe Pergunta Adicional de Termolábeis
+  //exibe raios 5-2
   document.getElementById("defaultCheck17").addEventListener("change", function () {
     const divAdicional2 = document.getElementById("gridRadios3Adicional2");
     const radiosAdicional2 = divAdicional2.querySelectorAll('input[type="radio"]');
@@ -1124,7 +888,121 @@
     }
   });
 
-  // Calcula pontuação 5 de material entregue corretamente PAI
+
+  // Adiciona um evento de escuta aos radios respostaSim2 e respostaNao2
+  document.querySelectorAll('input[name="gridRadios3Adicional2"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      // Verifica se o radio respostaNao2 está marcado
+      if (this.id === 'respostaNao2' && this.checked) {
+        // Se estiver marcado, exibe o span mensagem-especificacao2
+        document.querySelector('.mensagem-especificacao2').style.display = 'inline';
+      } else {
+        // Se não estiver marcado, oculta o span mensagem-especificacao2
+        document.querySelector('.mensagem-especificacao2').style.display = 'none';
+      }
+    });
+  });
+
+  //exibe radios embalagem danificada
+  document.getElementById("embDanif5").addEventListener("change", function () {
+    const divPerguntas = document.getElementById("perguntasEmbDanif5");
+    const radios = divPerguntas.querySelectorAll('input[type="radio"]');
+    if (this.checked) {
+      divPerguntas.style.display = "block";
+    } else {
+      divPerguntas.style.display = "none";
+      radios.forEach(function (radio) {
+        radio.checked = false;
+      });
+      document.getElementById("exibePontuacao5-1").innerText = "Pontuação: 0";
+      calcularPontuacaoSoma5();
+    }
+  });
+
+  // Adiciona ouvinte de eventos ao radio gridRadios21
+  document.getElementById('gridRadios21').addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('obs3').style.display = 'block';
+      document.getElementById('cx-obs3').setAttribute('required', true); // Torna o campo obrigatório
+    } else {
+      document.getElementById('obs3').style.display = 'none';
+      document.getElementById('cx-obs3').removeAttribute('required'); // Remove a obrigatoriedade do campo
+    }
+  });
+
+  // Adiciona ouvinte de eventos aos outros radios para ocultar a div obs3 quando outra opção for marcada
+  document.querySelectorAll('input[name="gridRadios7"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (this.id !== 'gridRadios21') {
+        document.getElementById('obs3').style.display = 'none';
+        document.getElementById('cx-obs3').removeAttribute('required'); // Remove a obrigatoriedade do campo
+      }
+    });
+  });
+
+  // Adiciona ouvinte de eventos ao radio gridRadios27
+  document.getElementById('gridRadios27').addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('obs12').style.display = 'block';
+      document.getElementById('cx-obs12').setAttribute('required', true); // Torna o campo obrigatório
+    } else {
+      document.getElementById('obs12').style.display = 'none';
+      document.getElementById('cx-obs12').removeAttribute('required'); // Remove a obrigatoriedade do campo
+    }
+  });
+
+  // Adiciona ouvinte de eventos aos outros radios para ocultar a div obs12 quando outra opção for marcada
+  document.querySelectorAll('input[name="gridRadios9"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (this.id !== 'gridRadios27') {
+        document.getElementById('obs12').style.display = 'none';
+        document.getElementById('cx-obs12').removeAttribute('required'); // Remove a obrigatoriedade do campo
+      }
+    });
+  });
+
+  // Adiciona ouvinte de eventos ao radio gridRadios24
+  document.getElementById('gridRadios24').addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('obs11').style.display = 'block';
+      document.getElementById('cx-obs11').setAttribute('required', true); // Torna o campo obrigatório
+    } else {
+      document.getElementById('obs11').style.display = 'none';
+      document.getElementById('cx-obs11').removeAttribute('required'); // Remove a obrigatoriedade do campo
+    }
+  });
+
+  // Adiciona ouvinte de eventos aos outros radios para ocultar a div obs11 quando outra opção for marcada
+  document.querySelectorAll('input[name="gridRadios8"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (this.id !== 'gridRadios24') {
+        document.getElementById('obs11').style.display = 'none';
+        document.getElementById('cx-obs11').removeAttribute('required'); // Remove a obrigatoriedade do campo
+      }
+    });
+  });
+
+
+  function calcularPontuacao() {
+    // Obter todos os elementos input do tipo radio com o mesmo nome
+    var radios = document.getElementsByName('gridRadios7');
+
+    var pontuacao = 0;
+
+    // Verificar qual opção está selecionada e adicionar sua pontuação à pontuação total
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        var valor = radios[i].value.split(',')[1]; // Obter o número após a vírgula
+        pontuacao += parseInt(valor, 10); // Converter para número e adicionar à pontuação
+        break; // Sair do loop, já que encontramos a opção selecionada
+      }
+    }
+
+    // Exibir pontuação
+    document.getElementById("pontuacao").innerText = "Pontuação: " + pontuacao;
+    atualizaTabela()
+  }
+
   function calcularPontuacao5() {
     var tdCertoCheckbox = document.getElementById('tdCerto');
     var pontuacaoPri = 0.0; // Inicializa com um float
@@ -1162,8 +1040,9 @@
 
 
 
+
   function calcularPontuacao5_1() {
-    var radios = document.getElementsByName('embalagemdanificadainfo');
+    var radios = document.getElementsByName('gridRadios3');
     var embDanifCheckbox = document.getElementById('embDanif5');
     var embDanifChecked = embDanifCheckbox.checked; // Use checked para verificar se o checkbox está marcado
 
@@ -1189,11 +1068,9 @@
   }
 
 
-
-
   // Função para calcular a pontuação do Termolábeis
   function calcularPontuacao5_2() {
-    var radios = document.getElementsByName('termolabelsimnao');
+    var radios = document.getElementsByName('gridRadios3Adicional2');
     var termolabeisChecked = document.getElementById('defaultCheck17').checked;
 
     // Se Termolábeis estiver marcado, recalcula a pontuação dos radios
@@ -1218,7 +1095,18 @@
   }
 
 
+  /*function calcularPontuacaoSoma5() {
+    // Obtém os valores das pontuações das três divs
+    var pontuacao5_1 = parseFloat(document.getElementById("exibePontuacao5-1").innerText.split(':')[1].trim());
+    var pontuacao5_2 = parseFloat(document.getElementById("exibePontuacao5-2").innerText.split(':')[1].trim());
+    var pontuacao5 = parseFloat(document.getElementById("pontuacao5").innerText.split(':')[1].trim());
 
+    // Calcula a soma das pontuações
+    var pontuacaoSoma5 = pontuacao5_1 + pontuacao5_2 + pontuacao5;
+
+    // Atualiza a div pontuacaoSoma5 com o valor da soma
+    document.getElementById("pontuacaoSoma5").innerText = "PontuaçãoSoma: " + pontuacaoSoma5;
+  }*/
 
   function calcularPontuacaoSoma5() {
     // Obtém os valores das pontuações das três divs
@@ -1249,11 +1137,9 @@
   }
 
 
-  //---------------------------------------------------------------------------------------------------------------6. Notas Fiscais apresentam: FABRICANTE LOTE E VALIDADE
-
   function calcularPontuacao6() {
     // Obter todos os elementos input do tipo radio com o mesmo nome
-    var radios = document.getElementsByName('lotevalidade');
+    var radios = document.getElementsByName('gridRadios4');
 
     var pontuacao = 0;
 
@@ -1271,34 +1157,29 @@
     atualizaTabela()
   }
 
-
-  //---------------------------------------------------------------------------------------------------------------8. Quais as informações observadas
-
-  document.getElementById('defaultCheck15').addEventListener('change', function () {
-    if (this.checked) {
-      // Se o checkbox "Nenhum" estiver marcado, desmarca e inabilita os checkboxes com a classe "limpar"
-      var checkboxes = document.querySelectorAll('.limpar');
-      checkboxes.forEach(function (checkbox) {
-        checkbox.checked = false;
-        checkbox.disabled = true; // Inabilita o checkbox
-      });
-    } else {
-      // Se o checkbox "Nenhum" estiver desmarcado, habilita os checkboxes com a classe "limpar"
-      var checkboxes = document.querySelectorAll('.limpar');
-      checkboxes.forEach(function (checkbox) {
-        checkbox.disabled = false; // Habilita o checkbox
-      });
-    }
-  });
-
-
-  //---------------------------------------------------------------------------------------------------------------9. Fornecedor realizou o agendamento para essa entrega
-
-  function calcularPontuacao9() {
-    var radios = document.getElementsByName('agendamento');
+  function calcularPontuacao7() {
+    var checkbox = document.getElementById('defaultCheck1');
     var pontuacao = 0;
 
-    // Verificar qual opção está selecionada em agendamento
+    // Verificar se o checkbox está marcado
+    if (checkbox.checked) {
+      // Se estiver marcado, obter o valor após a vírgula e atribuir à pontuação
+      pontuacao = parseFloat(checkbox.value.split(',')[1]);
+    }
+
+    // Exibir pontuação
+    document.getElementById("pontuacao7").innerText = "Pontuação: " + pontuacao;
+    atualizaTabela()
+  }
+
+
+
+
+  function calcularPontuacao9() {
+    var radios = document.getElementsByName('gridRadios5');
+    var pontuacao = 0;
+
+    // Verificar qual opção está selecionada em gridRadios5
     for (var i = 0; i < radios.length; i++) {
       if (radios[i].checked) {
         // Obter o valor após a vírgula e atribuir à pontuação
@@ -1312,10 +1193,26 @@
     atualizaTabela()
   }
 
-  //---------------------------------------------------------------------------------------------------------------11. Carga estava organizada por NF
+  function calcularPontuacao10() {
+    var radios = document.getElementsByName('gridRadios6');
+    var pontuacao = 0;
+
+    // Verificar qual opção está selecionada em gridRadios6
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        // Obter o valor após a vírgula e atribuir à pontuação
+        pontuacao = parseFloat(radios[i].value.split(',')[1]);
+        break;
+      }
+    }
+
+    // Exibir pontuação
+    document.getElementById("pontuacao10").innerText = "Pontuação: " + pontuacao;
+    atualizaTabela()
+  }
 
   function calcularPontuacao11() {
-    var radios = document.getElementsByName('organizadanf');
+    var radios = document.getElementsByName('gridRadios8');
     var pontuacao = 0;
 
     // Verificar qual opção está selecionada em gridRadios6
@@ -1332,25 +1229,8 @@
     atualizaTabela()
   }
 
-  // Adiciona ouvinte de eventos ao radio gridRadios24
-  document.getElementById('gridRadios24').addEventListener('change', function () {
-    if (this.checked) {
-      document.getElementById('obs11').style.display = 'block';
-      document.getElementById('cx-obs11').setAttribute('required', true); // Torna o campo obrigatório
-    }
-  });
-  document.getElementById('gridRadios23').addEventListener('change', function () {
-    if (this.checked) {
-      document.getElementById('obs11').style.display = 'none';
-      document.getElementById('cx-obs11').removeAttribute('required'); // Remove a obrigatoriedade do campo
-    }
-  });
-
-
-  //---------------------------------------------------------------------------------------------------------------12. Carga estava devidamente embalada?
-
   function calcularPontuacao12() {
-    var radios = document.getElementsByName('cargaembalada');
+    var radios = document.getElementsByName('gridRadios9');
     var pontuacao = 0;
 
     // Verificar qual opção está selecionada em gridRadios6
@@ -1367,26 +1247,8 @@
     atualizaTabela()
   }
 
-  // Adiciona ouvinte de eventos ao radio gridRadios27
-  document.getElementById('gridRadios27').addEventListener('change', function () {
-    if (this.checked) {
-      document.getElementById('obs12').style.display = 'block';
-      document.getElementById('cx-obs12').setAttribute('required', true); // Torna o campo obrigatório
-    }
-  });
-
-  document.getElementById('gridRadios26').addEventListener('change', function () {
-    if (this.checked) {
-      document.getElementById('obs12').style.display = 'none';
-      document.getElementById('cx-obs12').removeAttribute('required'); // Remove a obrigatoriedade do campo
-    }
-  });
-
-
-  //---------------------------------------------------------------------------------------------------------------13. Casa tenha sido necessária a presença do ajudante
-
   function calcularPontuacao13() {
-    var radios = document.getElementsByName('ajudante');
+    var radios = document.getElementsByName('gridRadios10');
     var pontuacao = 0;
 
     // Verificar qual opção está selecionada em gridRadios6
@@ -1403,11 +1265,8 @@
     atualizaTabela()
   }
 
-
-  //---------------------------------------------------------------------------------------------------------------14. Entrega foi aceita
-
   function calcularPontuacao14() {
-    var radios = document.getElementsByName('entregaaceita');
+    var radios = document.getElementsByName('gridRadios36');
     var pontuacao = 0;
 
     // Verificar qual opção está selecionada em gridRadios6
@@ -1425,9 +1284,7 @@
   }
 
 
-  //---------------------------------------------------------------------------------------------------------------Atualização da Nota
-
-  function atualizaTabela() {
+ function atualizaTabela() {
 
     // Definir o contador para calcular quantas vezes calcPontuacao é igual a 11
     let contadorPontuacao = 0;
@@ -1448,51 +1305,7 @@
     document.getElementById("exibirQualidade").innerText = calcPontuacao1 + (30 - calcPontuacao5) + calcPontuacao11 + calcPontuacao12 + calcPontuacao13;
     document.getElementById("exibirVerificacaoDocumental").innerText = calcPontuacao6;
     document.getElementById("exibirTotal").innerText = calcPontuacao14 + calcPontuacao9 + calcPontuacao1 + (30 - calcPontuacao5) + calcPontuacao11 + calcPontuacao12 + calcPontuacao13 + calcPontuacao6;
-
-    // Atualizar os inputs do formulário
-    document.getElementById("inputQuantidade").value = calcPontuacao14;
-    document.getElementById("inputPrazo").value = calcPontuacao9;
-    document.getElementById("inputQualidade").value = calcPontuacao1 + (30 - calcPontuacao5) + calcPontuacao11 + calcPontuacao12 + calcPontuacao13;
-    document.getElementById("inputDocumental").value = calcPontuacao6;
-    document.getElementById("inputTotal").value = calcPontuacao14 + calcPontuacao9 + calcPontuacao1 + (30 - calcPontuacao5) + calcPontuacao11 + calcPontuacao12 + calcPontuacao13 + calcPontuacao6;
-
-
   }
-
-  document.getElementById("tdCerto").addEventListener("change", function () {
-    const divDivergenciaEnt = document.getElementById("DivergenciaEnt");
-    const gridRadios3Adicional1 = document.getElementById("gridRadios3Adicional1");
-    const perguntasEmbDanif5 = document.getElementById("perguntasEmbDanif5");
-    const gridRadios3Adicional2 = document.getElementById("gridRadios3Adicional2");
-    const checkboxes = divDivergenciaEnt.querySelectorAll('input[type="checkbox"]');
-    const radios = divDivergenciaEnt.querySelectorAll('input[type="radio"]');
-
-    if (this.checked) {
-      divDivergenciaEnt.style.display = "none";
-      gridRadios3Adicional1.style.display = "none";
-      perguntasEmbDanif5.style.display = "none";
-      checkboxes.forEach(function (checkbox) {
-        checkbox.checked = false;
-      });
-      radios.forEach(function (radio) {
-        radio.checked = false;
-      });
-      document.getElementById("exibePontuacao5-1").innerText = "Pontuação: 0";
-      calcularPontuacaoSoma5();
-    } else {
-      divDivergenciaEnt.style.display = "block";
-      checkboxes.forEach(function (checkbox) {
-        checkbox.checked = false;
-      });
-      radios.forEach(function (radio) {
-        radio.checked = false;
-      });
-      document.getElementById("exibePontuacao5-1").innerText = "Pontuação: 0";
-      calcularPontuacaoSoma5();
-    }
-
-    atualizaTabela()
-  });
 
 
   /*document.getElementById("tdCerto").addEventListener("change", function () {
@@ -1520,19 +1333,67 @@
     }
   });*/
 
-  // Condição outros fornecedores
-  /*document.getElementById('nomeFornecedor').addEventListener('input', function () {
-    const valor = this.value.trim().toLowerCase(); // Obtém o valor digitado, removendo espaços em branco extras e tornando-o em minúsculas
-    const outroFornecedor = document.getElementById('outroFornecedor');
 
-    // Verifica se o valor é "outros"
-    if (valor === '1') {
-      outroFornecedor.style.display = 'block'; // Exibe o campo para inserir o nome do fornecedor
-      atualizaTabela()
+  document.getElementById("tdCerto").addEventListener("change", function () {
+    const divDivergenciaEnt = document.getElementById("DivergenciaEnt");
+    const gridRadios3Adicional1 = document.getElementById("gridRadios3Adicional1");
+    const perguntasEmbDanif5 = document.getElementById("perguntasEmbDanif5");
+    const gridRadios3Adicional2 = document.getElementById("gridRadios3Adicional2");
+    const checkboxes = divDivergenciaEnt.querySelectorAll('input[type="checkbox"]');
+    const radios = divDivergenciaEnt.querySelectorAll('input[type="radio"]');
+    const spans = document.querySelectorAll('.mensagem-especificacao2');
+
+    if (this.checked) {
+      divDivergenciaEnt.style.display = "none";
+      gridRadios3Adicional1.style.display = "none";
+      perguntasEmbDanif5.style.display = "none";
+      gridRadios3Adicional2.style.display = "none";
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+      radios.forEach(function (radio) {
+        radio.checked = false;
+      });
+      spans.forEach(function (span) {
+        span.style.display = "none";
+      });
+      document.getElementById("exibePontuacao5-1").innerText = "Pontuação: 0";
+      document.getElementById("exibePontuacao5-2").innerText = "Pontuação: 11";
+      calcularPontuacaoSoma5();
     } else {
-      outroFornecedor.style.display = 'none'; // Oculta o campo para inserir o nome do fornecedor
-      atualizaTabela()
+      divDivergenciaEnt.style.display = "block";
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+      radios.forEach(function (radio) {
+        radio.checked = false;
+      });
+      spans.forEach(function (span) {
+        span.style.display = "none";
+      });
+      document.getElementById("exibePontuacao5-1").innerText = "Pontuação: 0";
+      document.getElementById("exibePontuacao5-2").innerText = "Pontuação: 11";
+      calcularPontuacaoSoma5();
     }
-  });*/
+
+    atualizaTabela()
+  });
+
+
+
+  /* "Cadastrar"
+document.getElementById('btnCadastrarFornecedor').addEventListener('click', function() {
+    
+    var nome = document.getElementById('nomeNovoFornecedor').value;
+    var cnpj = document.getElementById('cnpjNovoFornecedor').value;
+    
+    //teste
+    console.log('Nome do fornecedor:', nome);
+    console.log('CNPJ do fornecedor:', cnpj);
+    
+    // Fechar
+    $('#modalNovoFornecedor').modal('hide');
+});*/
+
 
 </script>

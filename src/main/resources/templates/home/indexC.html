@@ -1,0 +1,964 @@
+<style>
+  @font-face {
+    font-family: 'Nunito';
+    src: url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+  }
+
+  #corpoFont {
+    width: 100%;
+  }
+
+  .form-check-input {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #ccc;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 10px;
+  }
+
+  .form-check-input:checked {
+    background: #335ACB;
+  }
+
+  .form-check-input:before {
+    position: absolute;
+    content: "";
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    left: 2px;
+    border-radius: 50%;
+    background: white;
+    transition: 0.3s;
+  }
+
+  .form-check-input:checked:before {
+    left: 22px;
+  }
+
+  .form-check-label {
+    position: relative;
+    top: -5px;
+  }
+
+  .teste {
+    align-self: center;
+  }
+
+  .radio-espaço-esq {
+    margin-left: 5pt;
+    align-self: center;
+  }
+
+  .select2-container .select2-selection--single {
+    background-color: white !important;
+    border-color: lightgray !important;
+    color: rgb(208, 207, 255) !important;
+    font-size: 1em !important;
+    padding-top: 7pt !important;
+    padding-left: 4pt !important;
+    height: 37pt !important;
+    width: 100% !important;
+    font-family: 'Nunito', sans-serif !important;
+  }
+
+  .select2-selection__arrow {
+    background-position: center right;
+    margin-top: 8pt;
+  }
+
+  .oculP {
+    display: none;
+  }
+
+  #downloadPdfButton {
+    margin-top: 20pt;
+    width: 20%;
+    height: 40pt;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(28, 170, 158);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #downloadPdfButton:hover {
+    background-color: rgb(27, 155, 174);
+  }
+
+  @media only screen and (max-width: 768px) {
+    #downloadPdfButton {
+      width: 80%;
+    }
+  }
+
+  #logEsq {
+    width: 75%; /* Ajuste o tamanho conforme necessário */
+  }
+
+  #logDir {
+    width: 75%; /* Ajuste o tamanho conforme necessário */
+  }
+
+  @media (max-width: 575.98px) {
+    #corpoFont {
+      width: 100%;
+    }
+
+    #h1form {
+      font-size: 1.2em; /* Tamanho do título ajustado */
+    }
+  }
+
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    #corpoFont {
+      width: 100%;
+    }
+
+    #h1form {
+      font-size: 1.5em; /* Tamanho do título ajustado */
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    #corpoFont {
+      width: 100%;
+    }
+
+    #h1form {
+      font-size: 2em; /* Tamanho do título ajustado */
+    }
+  }
+
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    #h1form {
+      font-size: 2.5em; /* Tamanho do título ajustado */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    #h1form {
+      font-size: 2.5em; /* Tamanho do título ajustado */
+    }
+  }
+
+  #overlay {
+    pointer-events: none;
+  }
+</style>
+
+
+<!-- No HTML: -->
+<div th:replace="compartilhado/top"></div>
+<!-- Begin Page Content -->
+
+
+
+
+
+  <!-- Page Heading -->
+
+  <div class="row mb-4">
+    <div class="col-lg-1 col-md-2 col-sm-3 col-3 logEsq">
+      <img id="logEsq" src="/img/img-uploads/Logo_Viva-Rio.png">
+    </div>
+    <div class="col-lg-10 col-md-8 col-sm-6 col-6 text-center d-flex align-items-center justify-content-center">
+      <h1 id="h1form" class="mb-2 text-gray-800">Formulário de Avaliação de Fornecedores</h1>
+    </div>
+    <div class="col-lg-1 col-md-2 col-sm-3 col-3 logDir">
+      <img id="logDir" src="/img/img-uploads/DOIT2.png">
+    </div>
+  </div>
+  
+  <div id="corpoFont" class="container-fluid">
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4" style="padding: 30px;">
+    <div id="overlay">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+      <form id="meuFormulario" method="POST" action="/formulario/cadastrar" enctype="multipart/form-data">
+
+
+        <!-- Razão Social -->
+        <div class="form-group">
+          <label for="nomeFornecedor" class="col-auto my-2 d-flex">1. Informe a Razão Social do Fornecedor</label>
+          <div class="input-group">
+            <select class="form-control form-control-lg select2" id="nomeFornecedor" name="nomefornecedor" placeholder="Pesquisar Fornecedor">
+              <option value="outros">Outros</option>
+              <th:block th:each="fornecedor : ${Fornecedores}">
+                <option th:text="${fornecedor.razao}" th:value="${fornecedor.id}" th:selected="${formulario.fornecedor != null and fornecedor.id == formulario.fornecedor.id}"></option>
+              </th:block>
+            </select>
+          </div>
+        </div>
+
+        <!-- Campo para inserir o nome do fornecedor se "outros" for selecionado -->
+        <div id="outroFornecedor" style="display: none;">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="nomeoutros" class="col-auto my-2 d-flex">1.1. Se outros: Nome do Fornecedor e CNPJ</label>
+              <div class="d-flex">
+                <input type="text" class="form-control form-control-lg mr-2" id="nomeoutros" name="nomeoutros" placeholder="Nome do Fornecedor" th:value="${formulario.nomeoutros}">
+                <input type="text" class="form-control form-control-lg" id="outroCnpjFornecedor" name="outroCnpjFornecedor" placeholder="CNPJ do Fornecedor" th:value="${formulario.outroCnpjFornecedor}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const nomeFornecedor = document.getElementById("nomeFornecedor");
+            const outroFornecedor = document.getElementById("outroFornecedor");
+          
+            // Função para exibir ou ocultar o campo de "outro fornecedor"
+            function toggleOutroFornecedor() {
+              if (nomeFornecedor.value === "1") {
+                outroFornecedor.style.display = "block";
+              } else {
+                outroFornecedor.style.display = "none";
+              }
+            }
+          
+            // Verifica a seleção inicial
+            toggleOutroFornecedor();
+          });
+          </script>
+
+        <!-- Notas Fiscais -->
+        <label class="col-auto my-2 d-flex">2. Nota(s) Fiscal(is)</label>
+        <div id="inputFields" class="card shadow mb-4" style="padding: 30px;">
+          <div th:each="nota : ${formulario.notasFiscais}" class="form-row fieldSet row">
+            <div class="form-group col-md-3">
+              <label for="inputCity">Nota Fiscal</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-primary" type="button" onclick="adicionarCampos()">+</button>
+                </div>
+                <input type="text" class="form-control" id="inputCity" name="numeroNotaFiscal"
+                  th:value="${nota.numeroNotaFiscal}">
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputZip">Nº de volumes</label>
+              <input type="text" class="form-control" id="inputZip" name="numeroVolumes"
+                th:value="${nota.numeroVolumes}">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputZip2">Centro de Custo</label>
+              <input type="text" class="form-control" id="inputZip2" name="centrodecusto"
+                th:value="${nota.centroDeCusto}">
+            </div>
+
+            <!-- <div class="form-group col-md-3">
+                      <label for="inputState">Selecione o Centro de Custo</label>
+                      <select id="inputState" class="form-control" name="centrodecusto" onchange="exibirCheckbox1()" th:value="${nota.centroDeCusto}">
+                          <option selected>Selecione</option>
+                          <th:block th:each="unidade : ${unidades}">
+                              <option th:text="${unidade.nomeunidade}" th:value="${unidade.nomeunidade}"></option>
+                          </th:block>
+                      </select>
+                  </div> -->
+            <!-- <div id="checkboxDiv" th:if="${nota.pagoPorBoleto}" style="align-self: flex-end; margin-bottom: 10pt;">
+                      <input type="checkbox" id="boletoCheckbox" th:checked="${nota.pagoPorBoleto}">
+                      <label class="radio-espaço-esq" for="boletoCheckbox">Pago por boleto?</label>
+                  </div> -->
+          </div>
+        </div>
+
+        <!-- Veiculo em condições adequadas? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">3. Veículo em condições adequadas?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="veiculo" id="gridRadios20" value="Sim,10"
+                  th:checked="${formulario.veiculo == 'Sim'}">
+                <label class="col-10" for="gridRadios20">Sim</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="veiculo" id="gridRadios21" value="Nao,0"
+                  th:checked="${formulario.veiculo == 'Nao'}">
+                <label class="col-10" for="gridRadios21">Não</label>
+              </div>
+              <div class="oculP" id="pontuacao">Pontuação: 0</div>
+              <div id="obs3" class="form-group" th:if="${formulario.veiculo == 'Nao'}" style="display: block;">
+                <label class="col-form-label col-sm-8 pt-1">3.1. Em caso de não, por favor especificar:</label>
+                <textarea class="form-control" id="cx-obs3" rows="3" name="veiculoobs"
+                  th:text="${formulario.veiculoobs}"></textarea>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+
+        <!-- A entrega foi realizada -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-3 pt-1">4. A entrega foi realizada:</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="entregarealizada" id="gridRadios4" value="Pelo próprio fornecedor,0"
+                  th:checked="${formulario.entregarealizada == 'Pelo próprio fornecedor'}">
+                <label class="col-10" for="gridRadios4">Pelo próprio fornecedor</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="entregarealizada" id="gridRadios5" value="Por transportadora,0"
+                  th:checked="${formulario.entregarealizada == 'Por transportadora'}">
+                <label class="col-10" for="gridRadios5">Por transportadora</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="entregarealizada" id="gridRadios6"
+                  value="Por serviço de postagem (correios e afins),0"
+                  th:checked="${formulario.entregarealizada == 'Por serviço de postagem (correios e afins)'}">
+                <label class="col-10" for="gridRadios6">Por serviço de postagem (correios e afins)</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        
+          <div class="form-group">
+            <legend class="col-form-label col-sm-3 pt-1">5. Material entregue corretamente?</legend>
+            <div class="col-10">
+              <div class="form-check">
+                <input type="checkbox" value="Sim,0" id="tdCerto" name="materialentregue"
+                  th:checked="${formulario.materialentregue == 'Sim'}">
+                <label class="col-10" for="tdCerto">Sim</label>
+              </div>
+            </div>
+
+            <div class="col-sm-10" id="DivergenciaEnt">
+              <div class="form-check">
+                <input type="checkbox" id="gridRadios7" name="materialparcial" value="Entrega Parcial de Itens,7.5"
+                  th:checked="${formulario.materialparcial == 'Entrega Parcial de Itens'}">
+                <label class="col-10" for="gridRadios7">Entrega Parcial de Itens</label>
+              </div>
+
+              <fieldset id="gridRadios3Adicional1" style="display: none;">
+                <legend class="col-form-label col-sm-6 pt-1">5.1. Em relação a Ordem de Fornecimento (OF)</legend>
+                <div class="col-sm-10 form-group">
+                  <div class="form-check">
+                    <input type="radio" name="parcialofpendente" id="respostaSim" value="Quantidade de itens pendentes"
+                      th:checked="${formulario.parcialofpendente == 'Quantidade de itens pendentes'}">
+                    <label class="col-10" for="respostaSim">Quantidade de itens pendentes</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" name="parcialofpendente" id="respostaNao" value="Variedade de itens pendentes"
+                      th:checked="${formulario.parcialofpendente == 'Variedade de itens pendentes'}">
+                    <label class="col-10" for="respostaNao">Variedade de itens pendentes</label>
+                  </div>
+                </div>
+              </fieldset>
+              
+
+              <div class="form-check">
+                <input type="checkbox"
+                  value="Especificação divergente de item - devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5"
+                  id="especif5" name="divergenciaitem"
+                  th:checked="${formulario.divergenciaitem == 'Especificação divergente de item - devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5'}">
+                <label class="col-10" for="especif5">Especificação divergente de item - devolver os produtos e NÃO
+                  assinar o canhoto da nota fiscal</label>
+              </div>
+
+              <div class="form-check">
+                <input type="checkbox" value="Embalagem danificada,0" id="embDanif5" name="embalagemdanificada"
+                  th:checked="${formulario.embalagemdanificada == 'Embalagem danificada'}">
+                <label class="col-10" for="embDanif5">Embalagem danificada? (recebi ou não)</label>
+              </div>
+
+              <fieldset id="perguntasEmbDanif5" style="display: none;">
+                <div class="form-group col-sm-10">
+                  <div class="form-check">
+                    <input type="radio" name="embalagemdanificadainfo" id="gridRadios8"
+                      value="Embalagem secundária danificada produto recebido,3.75"
+                      th:checked="${formulario.embalagemdanificadainfo == 'Embalagem secundária danificada produto recebido'}">
+                    <label class="col-10" for="gridRadios8">Embalagem secundária danificada – produto recebido</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" name="embalagemdanificadainfo" id="gridRadios9"
+                      value="O item foi devolvido por conta da embalagem secundária danificada,3.75"
+                      th:checked="${formulario.embalagemdanificadainfo == 'O item foi devolvido por conta da embalagem secundária danificada'}">
+                    <label class="col-10" for="gridRadios9">O item foi devolvido por conta da embalagem secundária
+                      danificada.</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" name="embalagemdanificadainfo" id="gridRadios10"
+                      value="Embalagem primária danificada? Se sim devolver os produtos e NÃO assinar o canhoto da nota fiscal,7.5"
+                      th:checked="${formulario.embalagemdanificadainfo == 'Embalagem primária danificada? Se sim devolver os produtos e NÃO assinar o canhoto da nota fiscal'}">
+                    <label class="col-10" for="gridRadios10">Embalagem primária danificada? Se sim, devolver os produtos
+                      e NÃO assinar o canhoto da nota fiscal</label>
+                  </div>
+                </div>
+              
+
+              <div class="oculP" id="exibePontuacao5-1">Pontuação: 0</div>
+
+            </div>
+
+            <!-- Termolábeis -->
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="checkbox" value="Termolabeis,0" id="defaultCheck17" name="temolabel"
+                  th:checked="${formulario.temolabel == 'Termolabeis'}">
+                <label class="col-10"> Termolábeis?</label>
+
+                <!-- 5.2 -->
+                <fieldset id="gridRadios3Adicional2" th:if="${formulario.temolabel == 'Termolabeis'}"
+                  style="display: block;">
+                  <legend class="col-form-label col-sm-6 pt-1">5.2. A temperatura registrada está entre 2ºC a 8ºC?
+                  </legend>
+                  <div class="col-sm-10 form-group">
+                    <div class="form-check">
+                      <input type="radio" name="termolabelsimnao" id="respostaSim2" value="sim,0"
+                        th:checked="${formulario.termolabelsimnao == 'sim'}">
+                      <label class="col-10" for="respostaSim2">Sim</label>
+                    </div>
+                    <div class="form-check">
+                      <input type="radio" name="termolabelsimnao" id="respostaNao2" value="nao,7.5"
+                        th:checked="${formulario.termolabelsimnao == 'nao'}">
+                      <label class="col-10" for="respostaNao2">Não &nbsp;<span class="mensagem-especificacao2"
+                          style="display: none; color: brown;"> - devolver os produtos e NÃO assinar o canhoto da nota
+                          fiscal </span></label>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <div class="oculP" id="exibePontuacao5-2">Pontuação: 11</div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+
+        <div class="oculP" id="pontuacao5">Pontuação: 0</div>
+        <div class="oculP" id="pontuacaoSoma5">PontuaçãoSoma: 0</div>
+
+        <!-- Nota(s) Fiscal(is) apresentam: FABRICANTE, LOTE e VALIDADE de acordo com o produto recebido? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">6. Nota(s) Fiscal(is) apresentam: FABRICANTE, LOTE e VALIDADE
+              de acordo com o produto recebido?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="lotevalidade" id="gridRadios11"
+                  value="Sim, apresenta os dados no corpo da NF,10"
+                  th:checked="${formulario.lotevalidade == 'Sim apresenta os dados no corpo da NF'}">
+                <label class="col-10" for="gridRadios11">Sim, apresenta os dados no corpo da NF</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="lotevalidade" id="gridRadios12"
+                  value="Não apresenta no corpo da NF, mas apresentou documento com essas informações,10"
+                  th:checked="${formulario.lotevalidade == 'Não apresenta no corpo da NF mas apresentou documento com essas informações'}">
+                <label class="col-10" for="gridRadios12">Não apresenta no corpo da NF, mas apresentou documento com
+                  essas informações</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="lotevalidade" id="gridRadios13"
+                  value="Não apresenta no corpo da NF, nem enviou os documentos com essas informações,5"
+                  th:checked="${formulario.lotevalidade == 'Não apresenta no corpo da NF nem enviou os documentos com essas informações'}">
+                <label class="col-10" for="gridRadios13">Não apresenta no corpo da NF, nem enviou os documentos com
+                  essas informações</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="oculP" id="pontuacao6">Pontuação: 0</div>
+        </fieldset>
+
+        <!-- Quais documentos impressos acompanham a(s) NF(s) -->
+        <div class="form-group">
+          <label class="col-form-label col-sm-8 pt-1">7. Quais documentos impressos acompanham a(s) NF(s)</label>
+          <div class="col-10">
+            <div class="form-check">
+              <input type="checkbox" value="Ordem de fornecimento (OF),10" name="documentoimpressosof"
+                id="defaultCheck1" th:checked="${formulario.documentoimpressosof == 'Ordem de fornecimento (OF)'}">
+              <label class="col-10" for="defaultCheck1">Ordem de fornecimento (OF)</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Mapa de Cotação (MP)" id="defaultCheck2" name="documentoimpressosmp"
+                th:checked="${formulario.documentoimpressosmp == 'Mapa de Cotação (MP)'}">
+              <label class="col-10" for="defaultCheck2">Mapa de Cotação (MP)</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="E-mail de autorização de entrega" id="defaultCheck3"
+                name="documentoimpressosemail"
+                th:checked="${formulario.documentoimpressosemail == 'E-mail de autorização de entrega'}">
+              <label class="col-10" for="defaultCheck3">E-mail de autorização de entrega</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox"
+                value="Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL"
+                id="defaultCheck4" name="documentoimpressosct"
+                th:checked="${formulario.documentoimpressosct == 'Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL'}">
+              <label class="col-10" for="defaultCheck4">Carta de compromisso de troca (CT) - VÁLIDA SOMENTE COM
+                AUTORIZAÇÃO DA GESTÃO CENTRAL</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL"
+                id="defaultCheck5" name="documentoimpressoscc"
+                th:checked="${formulario.documentoimpressoscc == 'Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA GESTÃO CENTRAL'}">
+              <label class="col-10" for="defaultCheck5">Carta de correção (CC) - VÁLIDA SOMENTE COM AUTORIZAÇÃO DA
+                GESTÃO CENTRAL</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Carta de lote e validade (LV)" id="defaultCheck6"
+                name="documentoimpressoslv"
+                th:checked="${formulario.documentoimpressoslv == 'Carta de lote e validade (LV)'}">
+              <label class="col-10" for="defaultCheck6">Carta de lote e validade (LV)</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Somente a Nota Fiscal" id="defaultCheck7" name="documentoimpressossnf"
+                th:checked="${formulario.documentoimpressossnf == 'Somente a Nota Fiscal'}">
+              <label class="col-10" for="defaultCheck7">Somente a Nota Fiscal</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Outros/observações" id="defaultCheck8" name="documentoimpressosoutros"
+                th:checked="${formulario.documentoimpressosoutros == 'Outros/observações'}">
+              <label class="col-10" for="defaultCheck8">Outros/observações</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quais as informações observadas nos dados adicionais das Nota(s) Fiscal(is)? -->
+        <div class="form-group">
+          <label class="col-form-label col-sm-8 pt-1">8. Quais as informações observadas nos dados adicionais das
+            Nota(s) Fiscal(is)?</label>
+          <div class="col-10">
+            <div class="form-check">
+              <input type="checkbox" value="Número da Ordem de Requisição (OR)" id="defaultCheck9" name="dadosrodapeOr"
+                th:checked="${formulario.dadosrodapeOr == 'Número da Ordem de Requisição (OR)'}">
+              <label class="col-10" for="defaultCheck9">Número da Ordem de Requisição (OR)</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Número da Ordem de Fornecimento (OF)" id="defaultCheck10"
+                name="dadosrodapeof" th:checked="${formulario.dadosrodapeof == 'Número da Ordem de Fornecimento (OF)'}">
+              <label class="col-10" for="defaultCheck10">Número da Ordem de Fornecimento (OF)</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Número do processo de aquisição/compra" id="defaultCheck11"
+                name="dadosrodapeaquisicao"
+                th:checked="${formulario.dadosrodapeaquisicao == 'Número do processo de aquisição/compra'}">
+              <label class="col-10" for="defaultCheck11">Número do processo de aquisição/compra</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Número do centro de custo" id="defaultCheck12" name="dadosrodapenumcc"
+                th:checked="${formulario.dadosrodapenumcc == 'Número do centro de custo'}">
+              <label class="col-10" for="defaultCheck12">Número do centro de custo</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Nome do centro de custo" id="defaultCheck13" name="dadosrodapenomecc"
+                th:checked="${formulario.dadosrodapenomecc == 'Nome do centro de custo'}">
+              <label class="col-10" for="defaultCheck13">Nome do centro de custo</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Número do Pedido" id="defaultCheck14" name="dadosrodapenumpedido"
+                th:checked="${formulario.dadosrodapenumpedido == 'Número do Pedido'}">
+              <label class="col-10" for="defaultCheck14">Número do Pedido</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Nenhuma" id="defaultCheck15" name="dadosrodapenenhuma"
+                th:checked="${formulario.dadosrodapenenhuma == 'Nenhuma'}">
+              <label class="col-10" for="defaultCheck15">Nenhuma</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" value="Outros/observações" id="defaultCheck16" name="dadosrodapeoutros"
+                th:checked="${formulario.dadosrodapeoutros == 'Outros/observações'}">
+              <label class="col-10" for="defaultCheck16">Outros/observações</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- O fornecedor realizou o agendamento para essa entrega? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">9. O fornecedor realizou o agendamento para essa entrega?
+            </legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="agendamento" id="gridRadios14" value="Sim,10"
+                  th:checked="${formulario.agendamento == 'Sim'}">
+                <label class="col-10" for="gridRadios14">Sim</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="agendamento" id="gridRadios15" value="Nao,5"
+                  th:checked="${formulario.agendamento == 'Nao'}">
+                <label class="col-10" for="gridRadios15">Não</label>
+              </div>
+            </div>
+          </div>
+          <div class="oculP" id="pontuacao9">Pontuação: 0</div>
+        </fieldset>
+
+        <!-- O fornecedor cumpriu data e hora do agendamento? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">10. O fornecedor cumpriu data e hora do agendamento?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="datahoracumprida" id="gridRadios17" value="Sim,10"
+                  th:checked="${formulario.datahoracumprida == 'Sim'}">
+                <label class="col-10" for="gridRadios17">Sim</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="datahoracumprida" id="gridRadios18" value="Nao,5"
+                  th:checked="${formulario.datahoracumprida == 'Nao'}">
+                <label class="col-10" for="gridRadios18">Não</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="datahoracumprida" id="gridRadios19"
+                  value="N/A (marcar somente se o fornecedor não agendou a entrega)"
+                  th:checked="${formulario.datahoracumprida == 'N/A (marcar somente se o fornecedor não agendou a entrega)'}">
+                <label class="col-10" for="gridRadios19">N/A (marcar somente se o fornecedor não agendou a
+                  entrega)</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Carga estava organizada por nota fiscal? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">11. Carga estava organizada por nota fiscal?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="organizadanf" id="gridRadios23" value="Sim,10"
+                  th:checked="${formulario.organizadanf == 'Sim'}">
+                <label class="col-10" for="gridRadios23">Sim</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="organizadanf" id="gridRadios24" value="Nao,5"
+                  th:checked="${formulario.organizadanf == 'Nao'}">
+                <label class="col-10" for="gridRadios24">Não</label>
+              </div>
+
+              <!-- obs organização por nf -->
+              <div id="obs11" class="form-group" th:if="${formulario.organizadanf == 'Nao'}" style="display: block;">
+                <label class="col-form-label col-sm-8 pt-1">11.1. Em caso de não, por favor especificar:</label>
+                <textarea class="form-control" id="cx-obs11" rows="3" name="organizadanfobs"
+                  th:text="${formulario.organizadanfobs}"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="oculP" id="pontuacao11">Pontuação: 0</div>
+        </fieldset>
+
+        <!-- Carga estava devidamente embalada e lacrada? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">12. Carga estava devidamente embalada e lacrada?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="cargaembalada" id="gridRadios26" value="Sim"
+                  th:checked="${formulario.cargaembalada == 'Sim'}">
+                <label class="col-10" for="gridRadios26">Sim</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="cargaembalada" id="gridRadios27" value="Não"
+                  th:checked="${formulario.cargaembalada == 'Nao'}">
+                <label class="col-10" for="gridRadios27">Não</label>
+              </div>
+
+              <!-- obs lacrada -->
+              <div id="obs12" class="form-group" th:if="${formulario.cargaembalada == 'Nao'}">
+                <label class="col-form-label col-sm-8 pt-1">12.1. Em caso de não, por favor especificar:</label>
+                <textarea class="form-control" id="cx-obs12" rows="3" name="cargaembaladaobs"
+                  th:text="${formulario.cargaembaladaobs}"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="oculP" id="pontuacao12">Pontuação: 0</div>
+        </fieldset>
+
+
+
+        <!-- Caso tenha sido necessária a presença do ajudante o fornecedor/transportadora disponibilizaram o profissional? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">13. Caso tenha sido necessária a presença do ajudante o
+              fornecedor/transportadora disponibilizaram o profissional?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="ajudante" id="gridRadios29" value="Sim,10"
+                  th:checked="${formulario.ajudante == 'Sim'}">
+                <label class="col-10" for="gridRadios29">Sim</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="ajudante" id="gridRadios30" value="Nao,5"
+                  th:checked="${formulario.ajudante == 'Nao'}">
+                <label class="col-10" for="gridRadios30">Não</label>
+              </div>
+            </div>
+          </div>
+          <div class="oculP" id="pontuacao13">Pontuação: 0</div>
+        </fieldset>
+
+        <!-- A entrega foi aceita? -->
+        <fieldset class="form-group">
+          <div class="form-group">
+            <legend class="col-form-label col-sm-8 pt-1">14. A entrega foi aceita?</legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input type="radio" name="entregaaceita" id="gridRadios32"
+                  value="Sim - Carga recebida totalmente - canhoto liberado,10"
+                  th:checked="${formulario.entregaaceita == 'Sim - Carga recebida totalmente - canhoto liberado'}">
+                <label class="col-10" for="gridRadios32">Sim - Carga recebida totalmente - canhoto liberado</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="entregaaceita" id="gridRadios33"
+                  value="Sim - Carga recebida parcialmente aguardando solução - canhoto retido,5"
+                  th:checked="${formulario.entregaaceita == 'Sim - Carga recebida parcialmente aguardando solução - canhoto retido'}">
+                <label class="col-10" for="gridRadios33">Sim - Carga recebida parcialmente, aguardando solução - canhoto
+                  retido</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="entregaaceita" id="gridRadios34"
+                  value="Não - Carga aguarda recolhimento - canhoto não assinado,0"
+                  th:checked="${formulario.entregaaceita == 'Não - Carga aguarda recolhimento - canhoto não assinado'}">
+                <label class="col-10" for="gridRadios34">Não - Carga aguarda recolhimento - canhoto não assinado</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" name="entregaaceita" id="gridRadios35"
+                  value="Não - Carga devolvida de imediato - canhoto não assinado,0"
+                  th:checked="${formulario.entregaaceita == 'Não - Carga devolvida de imediato - canhoto não assinado'}">
+                <label class="col-10" for="gridRadios35">Não - Carga devolvida de imediato - canhoto não
+                  assinado</label>
+              </div>
+            </div>
+          </div>
+          <div class="oculP" id="pontuacao14">Pontuação: 0</div>
+        </fieldset>
+
+        <div class="form-group">
+          <label class="col-form-label col-sm-8 pt-1">15. Há alguma informação relevante referente a essa entrega que
+            gostaria de registrar?</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="obsfinal"
+            th:text="${formulario.obsfinal}"></textarea>
+        </div>
+
+        <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th scope="col">Critério</th>
+                  <th scope="col">Peso</th>
+                  <th scope="col">Pontos</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <th scope="row">Quantidade</th>
+                  <td>10%</td>
+                  <td th:text="${formulario.Quantidade}">0</td>
+              </tr>
+              <tr>
+                  <th scope="row">Prazo</th>
+                  <td>10%</td>
+                  <td th:text="${formulario.Prazo}">0</td>
+              </tr>
+              <tr>
+                  <th scope="row">Qualidade</th>
+                  <td>70%</td>
+                  <td th:text="${formulario.Qualidade}">0</td>
+              </tr>
+              <tr>
+                  <th scope="row">Verificação Documental</th>
+                  <td>10%</td>
+                  <td th:text="${formulario.Documental}">0</td>
+              </tr>
+          </tbody>
+          <thead>
+              <tr>
+                  <th scope="col">Total</th>
+                  <th scope="col">100%</th>
+                  <th scope="col" th:text="${formulario.Total}">0</th>
+              </tr>
+          </thead>
+      </table>
+
+        <!-- Campo oculto para o nome do usuário -->
+        <input type="hidden" id="nomeUsuario" name="usuariocadastrado" th:value="${formulario.usuariocadastrado}">
+    
+
+
+    <!-- Espaço maior -->
+    <div style="margin-top: 75px;"></div>
+
+    <!-- Assinatura do Recebedor -->
+    <div class="form-group text-center">
+      <div style="border-bottom: 1px solid #000; width: 30%; margin: 0 auto 10px;"></div>
+      <label class="col-form-label col-sm-8 pt-1 font-weight-bold" style="margin-bottom: 0;">Responsável pelo recebimento</label>
+      <label class="col-form-label col-sm-8 pt-1" style="margin-top: -10px;">(Carimbo e Assinatura)</label>
+    </div>
+
+
+
+
+    <!-- 
+          <button id="env-form" type="submit" class="btn btn-primary">Enviar</button> -->
+    
+
+    </form>
+    
+  </div>
+  <button type="button" id="downloadPdfButton" class="btn btn-primary">Download PDF</button>
+  </div>
+</div>
+
+<!-- /.container-fluid -->
+<div th:replace="compartilhado/baixo"></div>
+<script>
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var tdCerto = document.getElementById('tdCerto');
+    var gridRadios7 = document.getElementById('gridRadios7');
+    var embDanif5 = document.getElementById('embDanif5');
+    var divergenciaEnt = document.getElementById('DivergenciaEnt');
+    var gridRadios3Adicional1 = document.getElementById('gridRadios3Adicional1');
+    var perguntasEmbDanif5 = document.getElementById('perguntasEmbDanif5');
+
+    function toggleFields() {
+      if (tdCerto.checked) {
+        divergenciaEnt.style.display = 'none';
+      } else {
+        divergenciaEnt.style.display = 'block';
+      }
+    }
+
+    function toggleAdicional1() {
+      if (gridRadios7.checked) {
+        gridRadios3Adicional1.style.display = 'block';
+      } else {
+        gridRadios3Adicional1.style.display = 'none';
+      }
+    }
+
+    function toggleEmbalagemDanificada() {
+      if (embDanif5.checked) {
+        perguntasEmbDanif5.style.display = 'block';
+      } else {
+        perguntasEmbDanif5.style.display = 'none';
+      }
+    }
+
+    tdCerto.addEventListener('change', toggleFields);
+    gridRadios7.addEventListener('change', toggleAdicional1);
+    embDanif5.addEventListener('change', toggleEmbalagemDanificada);
+
+    // Call the functions on page load to set the initial state
+    toggleFields();
+    toggleAdicional1();
+    toggleEmbalagemDanificada();
+  });
+
+
+</script>
+
+<!-- Script para converter HTML em canvas e depois em PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<style>
+  .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+  }
+  .header-row img {
+      max-width: 100px;
+  }
+  .header-title {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #4a4a4a;
+  }
+</style>
+
+<style>
+  /* Exemplo de ajuste para evitar quebra de linha */
+input, textarea, select, .form-check-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ajuste adicional para campos específicos, se necessário */
+#campoEspecifico {
+    width: auto;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    
+}
+
+</style>
+
+<script>
+
+
+document.getElementById('downloadPdfButton').addEventListener('click', function() {
+    // Create the header
+    const header = document.createElement('div');
+    header.classList.add('header-row');
+    
+    const imgLeft = document.createElement('img');
+    imgLeft.src = '/img/img-uploads/Logo_Viva-Rio.png';
+    imgLeft.id = 'logEsq';
+    header.appendChild(imgLeft);
+    
+    const title = document.createElement('div');
+    title.classList.add('header-title');
+    title.innerHTML = 'Formulário de Avaliação<br>de Fornecedores';
+    header.appendChild(title);
+    
+    const imgRight = document.createElement('img');
+    imgRight.src = '/img/img-uploads/DOIT2.png';
+    imgRight.id = 'logDir';
+    header.appendChild(imgRight);
+
+    // Clone the content to avoid modifying the original
+    const element = document.querySelector("#corpoFont").cloneNode(true);
+    element.insertBefore(header, element.firstChild);
+
+    // Remove any existing spaces before generating the PDF
+    element.querySelectorAll('*').forEach(function(node) {
+        if (node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue)) {
+            node.parentNode.removeChild(node);
+        }
+    });
+
+    const opt = {
+        margin: [10, 10, 10, 10], // top, left, bottom, right
+        filename: 'formulario_avaliacao_fornecedores.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 3, useCORS: true }, // increased scale for better quality
+        jsPDF: { unit: 'mm', format: 'a3', orientation: 'portrait' }, // format set to a3 portrait
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    html2pdf().from(element).set(opt).save();
+});
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,5 +1,77 @@
+<style>
+    #bodyPer {
+        background-image: url('img/img-uploads/fund.png');
+        background-color: white;
+        color: darkgray;
+        background-position: top center;
+        background-repeat: no-repeat;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    #doit {
+        /* Define a largura da imagem */
+        width: 75%;
+        margin-bottom: 30pt;
+    }
+
+    form {
+        width: 30%;
+        padding: 50px;
+        padding-top: 0px;
+        margin-top: 60px;
+    }
+
+    h4 {
+        font-size: 2rem !important;
+        font-weight: 300;
+    }
+
+    #email {
+        border-radius: 30px;
+        height: 35pt;
+    }
+
+    #senha {
+        border-radius: 30px;
+        height: 35pt;
+    }
+
+    #botao {
+        margin-top: 10pt;
+        width: 60%;
+        height: 40pt;
+        border: none;
+        border-radius: 30px;
+        background-color: rgb(28, 170, 158);
+    }
+
+    #botao:hover {
+        background-color: rgb(27, 155, 174);
+    }
+
+    @media only screen and (max-width:600px) {
+        form {
+            width: 100% !important;
+        }
+
+        /*#bodyPer {
+            background-size: 15%;
+        }*/
+    }
+
+    @media only screen and (min-width:601px) and (max-width:1024px) {
+        form {
+            width: 50% !important;
+        }
+
+        /*#bodyPer {
+            background-size: 10%;
+        }*/
+    }
+</style>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 
@@ -9,73 +81,49 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Do IT - Login</title>
-
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Custom styles for this template
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">-->
+
+    <title>Doit | FAF</title>
 
 </head>
 
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"
-                                style="background-image: url('https://storage.cloud.google.com/imagens_doit/img-uploads/Gest%C3%A3o%20de%20Patrim%C3%B4nio.png');">
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Seja muito bem vindo</h1>
-                                    </div>
-                                    <form class="user" action="/logar" method="POST">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="email" name="email" aria-describedby="emailHelp"
-                                                placeholder="Digite o seu email">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="senha" class="form-control form-control-user"
-                                                id="senha" placeholder="Digite sua senha">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="lembrar" name="lembrar">
-                                                <label class="custom-control-label" for="lembrar">Lembrar de mim</label>
-                                            </div>
-                                        </div>
-
-                                        <div th:if="${erro != null}" th:text="${erro}" class="alert alert-danger" role="alert"></div>
-
-                                        <button class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+<body id="bodyPer">
+    <div class="container-fluid">
+        <form class="user mx-auto" action="/logar" method="POST">
+            <img id="doit" class="img-fluid mx-auto d-block" src="img/img-uploads/2log.png">
+            <h4 class="text-center">Formulário de Avaliação de Fornecedores</h4>
+            <div class="form-group mb-3 mt-5">
+                <input type="email" class="form-control form-control-user" id="email" name="email"
+                    aria-describedby="emailHelp" placeholder="Digite o seu email">
             </div>
+            <div class="form-group mb-3">
+                <input type="password" name="senha" class="form-control form-control-user" id="senha"
+                    placeholder="Digite sua senha">
+            </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox small">
+                    <input type="checkbox" class="custom-control-input form-check-input" id="lembrar" name="lembrar">
+                    <label class="custom-control-label" for="lembrar">Lembrar de mim</label>
+                </div>
+            </div>
+            <div th:if="${erro != null}" th:text="${erro}" class="alert alert-danger" role="alert"></div>
 
-        </div>
+            <button id="botao" class="btn btn-primary btn-user btn-block mx-auto d-block">
+                Login
+            </button>
+        </form>
 
     </div>
 
@@ -88,6 +136,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
+
+    <script>
+
+    </script>
 
 </body>
 

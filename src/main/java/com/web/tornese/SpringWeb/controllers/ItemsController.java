@@ -1,5 +1,6 @@
 package com.web.tornese.SpringWeb.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -10,16 +11,24 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.io.image.ImageDataFactory;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -37,11 +46,13 @@ import com.web.tornese.SpringWeb.Servico.ExcelGenerator;
 import com.web.tornese.SpringWeb.models.Armazenagem;
 import com.web.tornese.SpringWeb.models.Catalogo;
 import com.web.tornese.SpringWeb.models.Grupo;
+import com.web.tornese.SpringWeb.models.Item_Unit;
 import com.web.tornese.SpringWeb.models.Unidades;
 import com.web.tornese.SpringWeb.repositorio.ArmazenagemRepository;
 import com.web.tornese.SpringWeb.repositorio.CatalogoRepo;
 import com.web.tornese.SpringWeb.repositorio.GruposRepository;
 import com.web.tornese.SpringWeb.repositorio.UnidadesRepository;
+import com.web.tornese.SpringWeb.repositorio.ItemUnitRepository;
 
 import org.springframework.util.StringUtils;
 
@@ -50,6 +61,9 @@ public class ItemsController {
 
   @Autowired
   private CatalogoRepo repo;
+
+  @Autowired
+  private ItemUnitRepository itemUnitRepository;
 
   @GetMapping("/items")
   public String index(Model model){
@@ -118,7 +132,9 @@ public class ItemsController {
 
 
         @PostMapping("/items/criar")
-        public String criar(Catalogo item, @RequestParam("imagem") MultipartFile imagem) throws IOException {
+        public String criar( Catalogo item, @RequestParam("imagem") MultipartFile imagem,
+            @RequestParam("unidadeIds") List<Long> unidadeIds) throws IOException {
+          // Processamento da imagem
           if (!imagem.isEmpty()) {
             String nomeDoArquivoImagem = StringUtils.cleanPath(Objects.requireNonNull(imagem.getOriginalFilename()));
             String extensaoImagem = nomeDoArquivoImagem.substring(nomeDoArquivoImagem.lastIndexOf('.'));
@@ -127,19 +143,27 @@ public class ItemsController {
             BlobId blobIdImagem = BlobId.of("imagens_doit", "img-uploads-catalogo/" + nomeDoArquivoUnicoImagem);
             BlobInfo blobInfoImagem = BlobInfo.newBuilder(blobIdImagem).build();
 
-            com.google.cloud.storage.Storage storage = StorageOptions.getDefaultInstance().getService();
-            Blob blobImagem = storage.create(blobInfoImagem, imagem.getBytes());
+            Blob blobImagem = StorageOptions.getDefaultInstance().getService().create(blobInfoImagem,
+                imagem.getBytes());
 
             String imageUrl = "https://storage.googleapis.com/" + blobImagem.getBucket() + "/" + blobImagem.getName();
             item.setCaminhoDaImagem(imageUrl);
           } else {
-            
-            // Defina um valor padrão ou permita que o caminho da imagem seja nulo, conforme
-            // a política de sua aplicação
-            item.setCaminhoDaImagem("caminho/padrão/para/imagem.jpg"); // Exemplo de caminho padrão
+            item.setCaminhoDaImagem(
+                "https://storage.googleapis.com/imagens_doit/img-uploads-catalogo/produto-sem-imagem.jpg");
           }
 
-          repo.save(item);
+          // Salvar o item no banco de dados
+          Catalogo savedItem = repo.save(item);
+
+          // Salvar as unidades relacionadas no banco de dados
+          for (Long unidadeId : unidadeIds) {
+            Item_Unit itemUnit = new Item_Unit();
+            itemUnit.setItem_id((long) savedItem.getId()); // Presume-se que Catalogo tem um método getId()
+            itemUnit.setUnidade_id(unidadeId);
+            itemUnitRepository.save(itemUnit);
+          }
+
           return "redirect:/items";
         }
 
@@ -222,5 +246,8 @@ public class ItemsController {
           model.addAttribute("unidades", unidades); // Adiciona a lista de unidades ao modelo
           return "local"; // Substitua pelo nome do seu arquivo HTML
       }
+
+    
+
 
 }

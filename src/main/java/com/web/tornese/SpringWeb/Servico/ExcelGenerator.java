@@ -51,7 +51,7 @@ public class ExcelGenerator {
                 // Continue preenchendo outros dados conforme necessário
 
                 // Verifique no console ou log se os dados estão sendo processados
-                System.out.println("Processando item: ID=" + item.getId() + ", Nome=" + item.getNome());
+                // System.out.println("Processando item: ID=" + item.getId() + ", Nome=" + item.getNome());
             }
 
             // Escrevendo o arquivo Excel

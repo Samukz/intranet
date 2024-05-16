@@ -12,49 +12,46 @@ public class Catalogo {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "codigo", length = 255, nullable = false)
-    private String nome;
+    @Column(name = "codigo", length = 255, nullable = true)
+    private String codigo;
 
-    @Column(name = "sigma", length = 255, nullable = false)
+    @Column(name = "sigma", length = 255, nullable = true)
     private String sigma;
 
-    @Column(name = "item", length = 255, nullable = false)
+    @Column(name = "item", length = 255, nullable = true)
     private String item;
 
-    @Column(name = "unmedida", length = 255, nullable = false)
+    @Column(name = "unmedida", length = 255, nullable = true)
     private String unmedida;
 
-    @Column(name = "siglaunmedida", length = 255, nullable = false)
+    @Column(name = "siglaunmedida", length = 255, nullable = true)
     private String siglaunmedida;
 
-    @Column(name = "grupo", length = 255, nullable = false)
+    @Column(name = "grupo", length = 255, nullable = true)
     private String grupo;
 
-    @Column(name = "subgrupo", length = 255, nullable = false)
+    @Column(name = "subgrupo", length = 255, nullable = true)
     private String subgrupo;
 
-    @Column(name = "tipo", length = 255, nullable = false)
+    @Column(name = "tipo", length = 255, nullable = true)
     private String tipo;
 
-    @Column(name = "especificacao", length = 255, nullable = false)
+    @Column(name = "especificacao", length = 255, nullable = true)
     private String especificacao;
 
-    @Column(name = "foto", length = 255, nullable = false)
-    private String foto;
-
-    @Column(name = "marca", length = 255, nullable = false)
+    @Column(name = "marca", length = 255, nullable = true)
     private String marca;
 
-    @Column(name = "modelo", length = 255, nullable = false)
+    @Column(name = "modelo", length = 255, nullable = true)
     private String modelo;
 
-    @Column(name = "fabricante", length = 255, nullable = false)
+    @Column(name = "fabricante", length = 255, nullable = true)
     private String fabricante;
 
-    @Column(name = "datacadastro", length = 255, nullable = false)
+    @Column(name = "datacadastro", length = 255, nullable = true)
     private String datacadastro;
 
-    @Column(name = "pessoa", length = 255, nullable = false)
+    @Column(name = "pessoa", length = 255, nullable = true)
     private String pessoa;
 
     @Column(name = "caminho", length = 250, nullable = true)
@@ -66,14 +63,6 @@ public class Catalogo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getSigma() {
@@ -140,14 +129,6 @@ public class Catalogo {
         this.especificacao = especificacao;
     }
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public String getMarca() {
         return marca;
     }
@@ -194,6 +175,19 @@ public class Catalogo {
 
     public void setCaminhoDaImagem(String caminhoDaImagem) {
         this.caminhoDaImagem = caminhoDaImagem;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNome'");
     }
 
  
